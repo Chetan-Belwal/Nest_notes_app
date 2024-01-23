@@ -3,6 +3,7 @@ import {
   Controller,
   Get,
   Post,
+  Redirect,
   Render,
   Req,
   Res,
@@ -14,26 +15,35 @@ import { AuthService } from '../services/auth.service';
 import { UserLoginDto } from '../../users/dtos/user-login.dto/user-login.dto';
 import { UsersGuard } from '../guard/users.guard';
 import { JwtAuthGuard } from '../guard/jwt.guard';
-import { Response } from 'express';
+import { Request, Response } from 'express';
 
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
 
+  @Render('logIn')
+  @Get('login')
+  logInPage(@Req() req: Request) {
+    console.log('inside get request');
+  }
+
+  @Redirect('dashboard')
   @UsePipes(new ValidationPipe())
   @UseGuards(UsersGuard)
-  @Render('login')
   @Post('login')
-  public async login(@Body() userLog: UserLoginDto, @Res() response: Response) {
-    const cookie = await this.authService.validateUser(userLog);
+  public async login(
+    @Req() req: Request,
+    @Res() response: Response,
+  ) {
+    console.log("test",req.user)
+    const cookie = req.user;
     console.log(cookie);
     response.cookie('user_token', cookie);
-    userLog.password = undefined;
-    return response.send(userLog);
   }
 
   @UseGuards(JwtAuthGuard)
-  @Get('status')
+  @Render('dashBoard')
+  @Get('dashboard')
   status(@Req() req: Request) {
     console.log('inside get request');
     return {

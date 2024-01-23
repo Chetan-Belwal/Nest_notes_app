@@ -18,13 +18,13 @@
 </head>
 <body>
     <div class="container" style="display: flex; justify-content: center;">
-    <form action="auth/login" class="form-signIn" method="post">
+    <form action="/auth/login" class="form-signIn" method="post">
         <div class="form-floating mt-5" >
-            <input type="email" class="form-control" id="email" placeholder="Email">
+            <input type="email" class="form-control" id="email" placeholder="Email" name="email">
             <label for="email">Email address</label>
         </div><p id="userEmail" class="text-danger"></p>
         <div class="form-floating mb-3">
-            <input type="password" class="form-control" id="password" placeholder="Password">
+            <input type="password" class="form-control" id="password" placeholder="Password" name="password">
             <label for="password">Password</label>
         </div><p id="userPassword" class="text-danger"></p>
         <button type="submit" class="btn btn-primary" onclick="logIn(event)">Submit</button>

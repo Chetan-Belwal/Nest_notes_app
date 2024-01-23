@@ -19,20 +19,20 @@
 </head>
 <body>
     <div class="container" style="display:flexbox;  margin-top: 45px;">
-        <form action="users/signUp" class="form-signIn" method="post">
+        <form action="/users/sign_up" class="form-signIn" method="post">
             <div class="form-floating mb-3">
-                <input type="text" class="form-control" id="firstname" placeholder="First Name">
-                <label for="name">UserName</label>
+                <input type="text" class="form-control" id="firstname" placeholder="First Name" name="name">
+                <label for="name">Name</label>
             </div><p id="userFirstName" class="text-danger"></p>
 
             <div class="form-floating mb-3">
-                <input type="email" class="form-control" id="email" placeholder="Email">
-                <label for="email">Email address</label>
+                <input type="text" class="form-control" id="email" placeholder="Email" name="email">
+                <label for="email">Email</label>
             </div><p id="userEmail" class="text-danger"></p>
 
             <div class="form-floating mb-3">
-                <input type="password" class="form-control" id="password" placeholder="Password">
-                <label for="password">New-Password</label>
+                <input type="password" class="form-control" id="password" placeholder="password" name="password">
+                <label for="password">Password</label>
             </div><p id="userPassword" class="text-danger"></p>
             <!-- <div class="form-floating mb-3">
                 <input type="text" class="form-control" id="address" placeholder="Address">

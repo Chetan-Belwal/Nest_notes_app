@@ -1,37 +1,51 @@
-import { Body, Controller, Delete, Get, Post, Redirect, Render, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Post,
+  Redirect,
+  Render,
+  Res,
+  UseGuards,
+  UsePipes,
+  ValidationPipe,
+} from '@nestjs/common';
 import { CreateUserDto } from '../dtos/create-user/create-user.dto';
 import { UsersService } from '../services/users.service';
 import { DeleteUserDto } from '../dtos/delete-user.dto/delete-user.dto';
-
+import { UserModel } from 'src/database/models/user.model';
 
 @Controller('users') // /users
 export class UsersController {
+  constructor(private userService: UsersService) {}
+  
 
-    constructor( private userService: UsersService){}
-    // @Redirect('http://localhost:3000/users/post')
-    @Render('signup')
-    @Get('sign_up')
-    public showSignUp(){
-        return {};
-    }
+  @Render('signup')
+  @Get('sign_up')
+  public showSignUp() {
    
-    @Redirect('/post')
-    @UsePipes(new ValidationPipe())
-    @Post('post')
-    public async create(@Body() createUser:CreateUserDto){
-        await this.userService.create(createUser);
-    }
-   
-    @Get()
-    public findOne(@Body() userId: CreateUserDto){
-        console.log(userId)
-    }
+    return {
+        message: '/sign_up'
+    };
+  }
 
-    @Delete()
-    public async delete_user(@Body() userId: DeleteUserDto){
-        await this.userService.deleteId(userId.id);
-    }
+  @UsePipes(new ValidationPipe())
+  @Redirect('/auth/login')
+  @Post('sign_up')
+  public async create(@Body() createUser: CreateUserDto): Promise<UserModel> {
+    console.log('request data', createUser);
+    return this.userService.create(createUser);
 
+  }
+
+  @Get()
+  public findOne(@Body() userId: CreateUserDto) {
+    console.log(userId);
+  }
+
+  @Delete()
+  public async delete_user(@Body() userId: DeleteUserDto) {
+    await this.userService.deleteId(userId.id);
+  }
 }
-
-
