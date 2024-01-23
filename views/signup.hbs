@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SignUp</title>
+    <header>
+        <div class="card">
+            <div class="card-body">
+                <h1 style="display:flex; justify-content: center;">
+                    <p class="card-text"><b>User Registration</b></p>
+                </h1>
+                <h5 class="card-title" style="display:flex; justify-content: center;"> Register yourself to never loose track of your notes :) </h5>
+            </div>
+        </div>
+    </header>
+</head>
+<body>
+    <div class="container" style="display:flexbox;  margin-top: 45px;">
+        <form action="users/signUp" class="form-signIn" method="post">
+            <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="firstname" placeholder="First Name">
+                <label for="name">UserName</label>
+            </div><p id="userFirstName" class="text-danger"></p>
+
+            <div class="form-floating mb-3">
+                <input type="email" class="form-control" id="email" placeholder="Email">
+                <label for="email">Email address</label>
+            </div><p id="userEmail" class="text-danger"></p>
+
+            <div class="form-floating mb-3">
+                <input type="password" class="form-control" id="password" placeholder="Password">
+                <label for="password">New-Password</label>
+            </div><p id="userPassword" class="text-danger"></p>
+            <!-- <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="address" placeholder="Address">
+                <label for="address">Address</label>
+            </div><p id="userAddress" class="text-danger"></p> -->
+            <button type="submit" class="btn btn-primary " onclick="submit1(event)">Submit</button>
+            {{!-- <button type="reset" class="btn btn-secondary" >Reset</button> --}}
+            <hr>
+            <p class="card-text">Already A Registered User?</p>
+            {{!-- <button type="submit" class="btn btn-success" style="margin-left: 5px;" onclick="logIn(event)">LogIn</button> --}}
+           
+    </div>
+    </form>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+       <script src="Javascript/SignUp.js"></script>
+</body>
+</html>
