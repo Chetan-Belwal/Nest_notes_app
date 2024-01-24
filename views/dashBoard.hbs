@@ -1,63 +1,161 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>T-EXT Editor</title>
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
-      crossorigin="anonymous"
-    />
-  </head>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>T-EXT Editor</title>
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+    crossorigin="anonymous"
+  />
+  <style>
+    body {
+      background-color: #f8f9fa;
+    }
 
-  <body>
-    <nav class="navbar navbar-dark bg-success">
-      <a class="navbar-brand" href="TextEditor.html">
-        <img
-          src="Images/tyrannosaurus-rex.png"
-          width="30"
-          height="30"
-          class="d-inline-block align-top"
-          alt="T-REX"
+    .navbar {
+      background-color: #4285f4;
+      color: white;
+      font-family: 'Roboto', sans-serif;
+    }
+
+    .navbar-brand img {
+      margin-right: 10px;
+    }
+
+    .note-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 15px;
+      margin-top: 20px;
+    }
+
+   .display-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 15px;
+      margin-top: 20px;
+    }
+
+    .note-card {
+      max-width: 400px;
+      width: 100%;
+      background-color: #fff;
+      border-radius: 8px;
+      padding: 15px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .note-title,
+    .note-text {
+      width: 100%;
+      border: none;
+      border-bottom: 1px solid #ccc; 
+      resize: none;
+      font-weight: bold;
+      margin-bottom: 10px;
+      padding: 5px 0;
+    }
+
+    .note-text {
+      height: 120px; 
+    }
+
+    .note-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .note-actions button {
+      margin-right: 5px;
+    }
+
+    .btn-save {
+      width: 100%;
+    }
+  </style>
+</head>
+
+<body>
+  <nav class="navbar navbar-dark">
+    <a class="navbar-brand" href="TextEditor.html">
+      <img
+        src="../Images/tyrannosaurus-rex.png"
+        width="35"
+        height="35"
+        class="d-inline-block align-top"
+        alt="T-REX"
+      />
+      T-EXT Keep Notes 
+    </a>
+  </nav>
+
+  <div class="container mt-3">
+      <form id="noteForm" action="/notes" method="post">
+    <div class="note-container">
+      <!-- Sample note card -->
+      <div class="note-card">
+        <input
+          type="text"
+          placeholder="Title..."
+          class="note-title"
+          name="title"
         />
-        T-EXT Notes Editor
-      </a>
-
-      <ul class="list-inline d-flex justify-content-end">
-        <li class="me-1">
-          <button class="btn btn-primary" id="saveData">Save :)</button>
-        </li>
-        <li class="me-1">
-          <button class="btn btn-secondary" id="saveAs">Edit</button>
-        </li>
-        <li>
-          <button class="btn btn-danger" id=" delete">Delete!!</button>
-        </li>
-      </ul>
-    </nav>
-    <div class="mb-5">
         <textarea
-        placeholder="Title..."
-        name="text"
-        id="text"
-        rows="2"
-        class="form-control mb-3"
-      ></textarea>
-      <textarea
-      placeholder="Take a Note..."
-        name="text"
-        id="text"
-        rows="10"
-        class="form-control mb-3"
-      ></textarea>
+          placeholder="Take a Note..."
+          class="note-text"
+          name="content"
+        ></textarea>
+        <div class="note-actions">
+           <button class="btn btn-primary btn-save">Save :)</button>
+          </form>
+          <form>
+          <button class="btn btn-outline-primary">Edit</button>
+          </form>
+          <form>
+          <button class="btn btn-outline-danger">Delete</button>
+          </form>
+         
+        </div>
+      </div>
+
     </div>
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
-      crossorigin="anonymous"
-    ></script>
-    <script src="TextEditor.js"></script>
-  </body>
+
+  </div>
+
+<div class="container mt-5">
+  <form action="notes/display_notes" method="get">
+  <table class="table" >
+  <thead>
+    <tr class="table-primary">
+      <th scope="col">Note Id</th>
+      <th scope="col">Title</th>
+      <th scope="col">Description</th>
+    </tr>
+  </thead>
+  <tbody>
+  {{#each data}}
+    <tr>
+      <th scope="row" class="table-info">{{this.id}}</th>
+      <td>{{this.title}}</td>
+      <td class="table-danger">{{this.content}}</td>
+      
+{{/each}}
+  </tbody>
+</table>
+</form>
+</div>
+
+  <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+    crossorigin="anonymous"
+  ></script>
+  <script src="TextEditor.js"></script>
+</body>
 </html>

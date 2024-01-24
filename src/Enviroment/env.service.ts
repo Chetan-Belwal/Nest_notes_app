@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { SequelizeModuleOptions, SequelizeOptionsFactory } from '@nestjs/sequelize';
+import { NoteModel } from 'src/database/models/note.model';
 import { UserModel } from 'src/database/models/user.model';
 
 @Injectable()
@@ -50,7 +51,7 @@ export class SequelizeConfigService extends EnvService implements SequelizeOptio
       username: this.username,
       password: this.password,
       database: this.database,
-      models: [UserModel],
+      models: [UserModel,NoteModel],
     };
   }
 }

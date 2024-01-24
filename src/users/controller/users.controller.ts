@@ -24,7 +24,6 @@ export class UsersController {
   @Render('signup')
   @Get('sign_up')
   public showSignUp() {
-   
     return {
         message: '/sign_up'
     };

@@ -16,6 +16,7 @@ import { UserLoginDto } from '../../users/dtos/user-login.dto/user-login.dto';
 import { UsersGuard } from '../guard/users.guard';
 import { JwtAuthGuard } from '../guard/jwt.guard';
 import { Request, Response } from 'express';
+import { User } from 'user.decorator';
 
 @Controller('auth')
 export class AuthController {
@@ -27,27 +28,19 @@ export class AuthController {
     console.log('inside get request');
   }
 
-  @Redirect('dashboard')
+  @Redirect('/notes/dashboard')
   @UsePipes(new ValidationPipe())
   @UseGuards(UsersGuard)
   @Post('login')
   public async login(
-    @Req() req: Request,
+    @User() user,
     @Res() response: Response,
   ) {
-    console.log("test",req.user)
-    const cookie = req.user;
+    console.log("test",user)
+    const cookie = user;
     console.log(cookie);
     response.cookie('user_token', cookie);
   }
 
-  @UseGuards(JwtAuthGuard)
-  @Render('dashBoard')
-  @Get('dashboard')
-  status(@Req() req: Request) {
-    console.log('inside get request');
-    return {
-      status: 'oke',
-    };
-  }
+ 
 }

@@ -1,9 +1,10 @@
-import { Get, Controller, Render } from '@nestjs/common';
+import { Get, Controller, Render, Redirect } from '@nestjs/common';
 
 @Controller()
 export class AppController {
-  @Get('signup')
-  @Render('signup')
+  @Redirect('users/sign_up')
+  @Get()
+
   root() {
     return { message: 'Hello world!' };
   }

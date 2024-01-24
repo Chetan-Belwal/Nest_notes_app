@@ -23,7 +23,7 @@ export const up = async ({context: sequelize }) => {
             type: DataType.INTEGER,
             references:{
                 model: 'notes',
-                key: 'note_id'
+                key: 'id'
             }
 
         },

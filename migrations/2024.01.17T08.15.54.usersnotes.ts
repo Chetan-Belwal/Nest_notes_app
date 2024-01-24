@@ -10,15 +10,17 @@ export const up = async({context: sequelize}) => {
                 key: 'id'
             }
         },
-        note_id:{
+        id:{
             type: DataType.INTEGER,
-            primaryKey: true
+            primaryKey: true,
+            autoIncrement: true,
         },
+        
         title:{
             type: DataType.TEXT,
             allowNull: true
         },
-        description:{
+        content:{
             type: DataType.TEXT,
             allowNull: true
         },

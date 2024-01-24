@@ -25,7 +25,7 @@ export class UsersService {
     return await this.userModel.destroy({
       where:{
         id: id
-      }
+      },
     })
 
   }

@@ -4,6 +4,7 @@ import { InjectModel } from '@nestjs/sequelize';
 import { UserModel } from 'src/database/models/user.model';
 import { UserLoginDto } from 'src/users/dtos/user-login.dto/user-login.dto';
 import { decodePassword } from 'src/utils/bcrypt';
+import { IdDto } from './dto/id.dto';
 
 @Injectable()
 export class AuthService {
@@ -27,8 +28,6 @@ export class AuthService {
             if(match){
                 const userObj = {
                     user_id : user.dataValues.id,
-                    name : user.dataValues.name,
-                    email : user.dataValues.email
                 }
                 return this.jwtService.sign(userObj);
                  
@@ -46,12 +45,17 @@ export class AuthService {
 
 
  
-  async getByEmail(userData: UserLoginDto) {
+  async getById(userData: IdDto) {
+    console.log(userData.user_id)
     const user = await this.userModel.findOne({ where: {
-        email:userData.email
-    } });
+        id:userData.user_id
+    }, raw: true});
+
     if (user) {
-      return user;
+        const userObj = {
+            user_id : user.id
+        }
+      return userObj ;
     }
     throw new HttpException('User with this id does not exist', HttpStatus.NOT_FOUND);
   }
