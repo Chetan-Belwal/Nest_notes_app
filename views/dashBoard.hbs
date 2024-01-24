@@ -1,15 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>T-EXT Editor</title>
-  <link
-    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-    rel="stylesheet"
-    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
-    crossorigin="anonymous"
-  />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
   <style>
     body {
       background-color: #f8f9fa;
@@ -33,7 +30,7 @@
       margin-top: 20px;
     }
 
-   .display-container {
+    .display-container {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
@@ -54,7 +51,7 @@
     .note-text {
       width: 100%;
       border: none;
-      border-bottom: 1px solid #ccc; 
+      border-bottom: 1px solid #ccc;
       resize: none;
       font-weight: bold;
       margin-bottom: 10px;
@@ -62,12 +59,18 @@
     }
 
     .note-text {
-      height: 120px; 
+      height: 120px;
     }
 
     .note-actions {
       display: flex;
       justify-content: space-between;
+      align-items: center;
+    }
+
+     .note-action2 {
+      display: flex;
+      justify-content: left;
       align-items: center;
     }
 
@@ -84,78 +87,65 @@
 <body>
   <nav class="navbar navbar-dark">
     <a class="navbar-brand" href="TextEditor.html">
-      <img
-        src="../Images/tyrannosaurus-rex.png"
-        width="35"
-        height="35"
-        class="d-inline-block align-top"
-        alt="T-REX"
-      />
-      T-EXT Keep Notes 
+      <img src="../Images/tyrannosaurus-rex.png" width="35" height="35" class="d-inline-block align-top" alt="T-REX" />
+      T-EXT Keep Notes
     </a>
   </nav>
 
   <div class="container mt-3">
-      <form id="noteForm" action="/notes" method="post">
-    <div class="note-container">
-      <!-- Sample note card -->
-      <div class="note-card">
-        <input
-          type="text"
-          placeholder="Title..."
-          class="note-title"
-          name="title"
-        />
-        <textarea
-          placeholder="Take a Note..."
-          class="note-text"
-          name="content"
-        ></textarea>
-        <div class="note-actions">
-           <button class="btn btn-primary btn-save">Save :)</button>
-          </form>
+    <form id="noteForm" action="/notes" method="post">
+      <div class="note-container">
+        <!-- Sample note card -->
+        <div class="note-card">
+          <input type="text" placeholder="Title..." class="note-title" name="title" />
+          <textarea placeholder="Take a Note..." class="note-text" name="content"></textarea>
+          <div class="note-actions">
+            <button class="btn btn-primary btn-save">Save :)</button>
+          </div>
+        </div>
+
+      </div>
+    </form>
+  </div>
+
+  <div class="container mt-5">
+    <form action="notes/display_notes" method="get">
+      <table class="table">
+        <thead>
+          <tr class="table-primary">
+            <th scope="col">Note Id</th>
+            <th scope="col">Title</th>
+            <th scope="col">Description</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each data}}
+          <tr>
+            <th scope="row" class="table-info">{{this.id}}</th>
+            <td>{{this.title}}</td>
+            <td class="table-danger">{{this.content}}</td>
+            <td> <div class="note-action2">
           <form>
-          <button class="btn btn-outline-primary">Edit</button>
+          <button class="btn btn-outline-primary" 
+          style="margin: 0px 25px 0px 25px  ">Edit</button>
           </form>
           <form>
           <button class="btn btn-outline-danger">Delete</button>
           </form>
          
-        </div>
-      </div>
+        </div></td>
 
-    </div>
-
+            {{/each}}
+        </tbody>
+      </table>
+    </form>
   </div>
 
-<div class="container mt-5">
-  <form action="notes/display_notes" method="get">
-  <table class="table" >
-  <thead>
-    <tr class="table-primary">
-      <th scope="col">Note Id</th>
-      <th scope="col">Title</th>
-      <th scope="col">Description</th>
-    </tr>
-  </thead>
-  <tbody>
-  {{#each data}}
-    <tr>
-      <th scope="row" class="table-info">{{this.id}}</th>
-      <td>{{this.title}}</td>
-      <td class="table-danger">{{this.content}}</td>
-      
-{{/each}}
-  </tbody>
-</table>
-</form>
-</div>
-
-  <script
-    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
-    crossorigin="anonymous"
-  ></script>
+    crossorigin="anonymous"></script>
   <script src="TextEditor.js"></script>
 </body>
+
 </html>
