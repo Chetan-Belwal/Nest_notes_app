@@ -9,8 +9,6 @@ import { DatabaseModule } from './database/module/database.module';
 import { EnvService } from './Enviroment/env.service';
 import { AuthModule } from './auth/auth.module';
 import { NotesModule } from './notes/module/notes.module';
-import { NotesService } from './notes/services/notes.service';
-import { NotesController } from './notes/controller/notes.controller';
 
 @Module({
   imports: [UsersModule,ConfigModule.forRoot({

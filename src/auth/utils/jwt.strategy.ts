@@ -9,7 +9,7 @@ import { IdDto } from "../services/dto/id.dto";
 export class JwtStrategy extends PassportStrategy(Strategy){
     constructor(private authservice : AuthService){super({
         jwtFromRequest: ExtractJwt.fromExtractors([(request: Request) => {
-            return request?.cookies?.user_token}]),
+            return request?.cookies?.Authentication}]),
          secretOrKey: 'oksir123'
         });
     }

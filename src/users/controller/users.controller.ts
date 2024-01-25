@@ -13,7 +13,6 @@ import {
 } from '@nestjs/common';
 import { CreateUserDto } from '../dtos/create-user/create-user.dto';
 import { UsersService } from '../services/users.service';
-import { DeleteUserDto } from '../dtos/delete-user.dto/delete-user.dto';
 import { UserModel } from 'src/database/models/user.model';
 
 @Controller('users') // /users
@@ -43,8 +42,4 @@ export class UsersController {
     console.log(userId);
   }
 
-  @Delete()
-  public async delete_user(@Body() userId: DeleteUserDto) {
-    await this.userService.deleteId(userId.id);
-  }
 }

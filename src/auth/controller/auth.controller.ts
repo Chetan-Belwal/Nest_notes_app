@@ -12,15 +12,14 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { AuthService } from '../services/auth.service';
-import { UserLoginDto } from '../../users/dtos/user-login.dto/user-login.dto';
 import { UsersGuard } from '../guard/users.guard';
-import { JwtAuthGuard } from '../guard/jwt.guard';
 import { Request, Response } from 'express';
 import { User } from 'user.decorator';
+import { JwtAuthGuard } from '../guard/jwt.guard';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService) { }
 
   @Render('logIn')
   @Get('login')
@@ -36,11 +35,16 @@ export class AuthController {
     @User() user,
     @Res() response: Response,
   ) {
-    console.log("test",user)
+    console.log("test", user)
     const cookie = user;
-    console.log(cookie);
-    response.cookie('user_token', cookie);
+    response.setHeader('Set-Cookie', cookie);
   }
 
- 
+  @UseGuards(JwtAuthGuard)
+  @Redirect('/auth/login')
+  @Get('log_out')
+  public async logOut(@Res() res: Response){
+    const cookie = this.authService.clearCookies();
+    res.setHeader('Set-Cookie', cookie)
+  }
 }

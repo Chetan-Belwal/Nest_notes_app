@@ -29,7 +29,8 @@ export class AuthService {
                 const userObj = {
                     user_id : user.dataValues.id,
                 }
-                return this.jwtService.sign(userObj);
+                const token =  this.jwtService.sign(userObj);
+                return `Authentication=${token}; HttpOnly; Path=/; Max-Age='1h'`;
                  
             }else{
                 const msg = "Username or password Not matched";
@@ -58,6 +59,10 @@ export class AuthService {
       return userObj ;
     }
     throw new HttpException('User with this id does not exist', HttpStatus.NOT_FOUND);
+  }
+
+  public clearCookies(){
+    return `Authentication=; HttpOnly; Path=/; Max-Age=0`;
   }
 
 }
