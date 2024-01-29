@@ -8,7 +8,9 @@ export const up = async({context: sequelize}) => {
             references:{
                 model: 'users',
                 key: 'id'
-            }
+            },
+            onDelete:'cascade',
+            onUpdate:'cascade'
         },
         id:{
             type: DataType.INTEGER,

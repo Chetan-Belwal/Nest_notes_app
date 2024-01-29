@@ -2,13 +2,21 @@ import { DataType } from "sequelize-typescript";
 
 export const up = async ({context: sequelize }) => {
     await sequelize.getQueryInterface().createTable('shared_notes', {
+        id: {
+            type: DataType.INTEGER,
+            primaryKey: true,
+            autoIncrement: true,
+            allowNull: false
+          },
         sender_id:{
             type: DataType.INTEGER,
             allowNull: false,
             references:{
                 model: 'users',
                 key: 'id'
-            }
+            } ,
+            onDelete:'cascade',
+            onUpdate:'cascade'
         },
 
         receiver_id:{
@@ -17,14 +25,18 @@ export const up = async ({context: sequelize }) => {
             references:{
                 model: 'users',
                 key: 'id'
-            }
+            },
+            onDelete:'cascade',
+            onUpdate:'cascade'
         },
         shared_note_id:{
             type: DataType.INTEGER,
             references:{
                 model: 'notes',
                 key: 'id'
-            }
+            },
+            onDelete:'cascade',
+            onUpdate:'cascade'
 
         },
         created_at:{

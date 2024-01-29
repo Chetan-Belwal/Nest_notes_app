@@ -9,6 +9,7 @@ import { DatabaseModule } from './database/module/database.module';
 import { EnvService } from './Enviroment/env.service';
 import { AuthModule } from './auth/auth.module';
 import { NotesModule } from './notes/module/notes.module';
+import { NotesSharingService } from './notes/services/notes-sharing.service';
 
 @Module({
   imports: [UsersModule,ConfigModule.forRoot({
