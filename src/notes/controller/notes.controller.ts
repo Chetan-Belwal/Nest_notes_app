@@ -59,7 +59,7 @@ export class NotesController {
   ) {
     return await this.noteservice.saveNote(userId, noteContent);
   }
-\
+
   @Redirect('/notes/dashboard')
   @Delete(':id')
   public async delete_user(

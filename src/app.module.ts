@@ -8,7 +8,6 @@ import { ConfigModule} from '@nestjs/config';
 import { DatabaseModule } from './database/module/database.module';
 import { AuthModule } from './auth/auth.module';
 import { NotesModule } from './notes/module/notes.module';
-import { NotesSharingService } from './notes/services/notes-sharing.service';
 import { MailModule } from './mail/mail.module';
 
 @Module({

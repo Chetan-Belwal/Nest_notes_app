@@ -14,16 +14,16 @@ import { ConfigService } from '@nestjs/config';
           port: configService.get('MAIL_PORT'),
           ignoreTLS: true,
           secure: false,
-          auth: {
-            user: configService.get('MAIL_USER'),
-            pass: configService.get('MAIL_PASSWORD'),
-          },
+          // auth: {
+          //   user: configService.get('MAIL_USER'),
+          //   pass: configService.get('MAIL_PASSWORD'),
+          // },
         },
         defaults: {
-          from: `"No Reply" <${configService.get('MAIL_HOST')}>`,
+          from: `${configService.get('MAIL_HOST')}`,
         },
         template: {
-          dir: join(__dirname, 'templates'),
+          dir: join(__dirname, '..','..','mail','templates'),
           adapter: new HandlebarsAdapter(),
           options: {
             strict: true,
@@ -35,5 +35,6 @@ import { ConfigService } from '@nestjs/config';
     }),
   ],
   providers: [MailService],
+  exports:[MailService]
 })
 export class MailModule {}

@@ -131,9 +131,42 @@ export class NotesService {
    * @param note takes notes model as instance 
    * @returns deletes the data
    */
-  public delete_note(note: NoteModel): Promise<void> {
-    // this.mailService.sendUserDeleteConfirmation()
-    return note.destroy()
+  public async delete_note(note: NoteModel): Promise<any> {
+    console.log("test", note.user_id)
+    const data = await this.sharedNote.findAll({
+      where: { sender_id: note.dataValues.user_id },
+      attributes: ['shared_note_id'],
+      include:[
+        {model: UserModel,
+          attributes:['name'],
+          as: 'receiver'
+        },{
+          model:NoteModel,
+          attributes:['title','content'],
+          as: 'notes'
+        },
+        {model: UserModel,
+          attributes:['name'],
+          as: 'sender'
+        }
+      ],raw:true
+    })
+
+    console.log(data)
+    
+    const noteWithUsernames= data.map((note) => {
+      const noteObject = Object.assign({}, note);
+      const receiverName = noteObject['receiver.name'];
+      const senderName = noteObject['sender.name'];
+      const title = noteObject['notes.title'];
+      const content = noteObject['notes.content'];
+      const data = {senderName,receiverName,title,content}
+      return data
+    });
+    await this.mailService.sendUserDeleteConfirmation(noteWithUsernames)
+     await note.destroy()
+     return noteWithUsernames[0]
+   
   }
 
   public updateNotes(note: NoteModel, content: Pick<NoteModel, 'title' | 'content'>) {
