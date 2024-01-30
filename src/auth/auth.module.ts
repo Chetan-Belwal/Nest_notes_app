@@ -8,15 +8,13 @@ import { PassportModule } from '@nestjs/passport';
 import { LocalStrategy } from './utils/localStrategy';
 import { JwtModule } from '@nestjs/jwt';
 import { JwtStrategy } from './utils/jwt.strategy';
+import { JwtConfigration } from 'src/Enviroment/config/jwt.config';
 
 @Module({
   imports: [
     SequelizeModule.forFeature([UserModel, NoteModel]),
     PassportModule,
-    JwtModule.register({
-      secret: 'oksir123',
-      signOptions: { expiresIn: '1h' },
-    }),
+    JwtModule.registerAsync(JwtConfigration),
   ],
 
   controllers: [AuthController],

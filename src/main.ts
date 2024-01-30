@@ -1,32 +1,30 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { EnvService } from './Enviroment/env.service';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { join } from 'path';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import * as cookieParser from 'cookie-parser';
-var methodOverride = require('method-override')
-var bodyParser = require('body-parser')
-
-
+import { ConfigService } from '@nestjs/config';
+var methodOverride = require('method-override');
+var bodyParser = require('body-parser');
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
-  
+
   //Cookie parser
   app.use(cookieParser());
-  
+
   //Enviroment Config Service
-  const configService = app.get(EnvService);
+  const configService = app.get(ConfigService);
 
   //port
-  const port = configService.port;
+  const port = configService.get('port');
 
-  //handlebars engine 
+  //handlebars engine
   app.useStaticAssets(join(__dirname, '..', '..', 'public'));
   app.setBaseViewsDir(join(__dirname, '..', '..', 'views'));
-  app.setViewEngine('hbs');                                                                             
-  
+  app.setViewEngine('hbs');
+
   //Swagger Api Setup
   const config = new DocumentBuilder()
     .setTitle('Cats example')
@@ -38,19 +36,17 @@ async function bootstrap() {
   SwaggerModule.setup('api', app, document);
 
   //Method override
-  app.use(bodyParser.urlencoded({extended : false}))
-  app.use(methodOverride(function (req, res) {
-    if (req.body && typeof req.body === 'object' && '_method' in req.body) {
-     
-      var method = req.body._method
-      delete req.body._method
-      return method
-    }
-  }))
-
+  app.use(bodyParser.urlencoded({ extended: false }));
+  app.use(
+    methodOverride(function (req, res) {
+      if (req.body && typeof req.body === 'object' && '_method' in req.body) {
+        var method = req.body._method;
+        delete req.body._method;
+        return method;
+      }
+    }),
+  );
 
   await app.listen(port);
 }
 bootstrap();
-
-

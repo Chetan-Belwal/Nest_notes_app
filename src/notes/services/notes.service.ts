@@ -3,6 +3,7 @@ import { InjectModel } from '@nestjs/sequelize';
 import { NoteModel } from 'src/database/models/note.model';
 import { SharedNotesModel } from 'src/database/models/shared.notes.model';
 import { UserModel } from 'src/database/models/user.model';
+import { MailService } from 'src/mail/mail.service';
 
 @Injectable()
 export class NotesService {
@@ -10,8 +11,9 @@ export class NotesService {
     @InjectModel(NoteModel)
     private noteModel: typeof NoteModel,
     @InjectModel(SharedNotesModel)
-    private sharedNote: typeof SharedNotesModel
-  ) { }
+    private sharedNote: typeof SharedNotesModel,
+    private mailService : MailService
+  ) {}
 
 
   //Save user notes
@@ -31,13 +33,14 @@ export class NotesService {
 
   //Display user notes
   public async showNotes(note: Pick<NoteModel, 'user_id'>) {
-    return await this.noteModel.findAll({
+      return await this.noteModel.findAll({
       where: {
         user_id: note.user_id,
       },
       raw: true,
     });
   }
+  
 
   /**
    * This functions returns the notes that were 
@@ -129,7 +132,8 @@ export class NotesService {
    * @returns deletes the data
    */
   public delete_note(note: NoteModel): Promise<void> {
-    return note.destroy();
+    // this.mailService.sendUserDeleteConfirmation()
+    return note.destroy()
   }
 
   public updateNotes(note: NoteModel, content: Pick<NoteModel, 'title' | 'content'>) {

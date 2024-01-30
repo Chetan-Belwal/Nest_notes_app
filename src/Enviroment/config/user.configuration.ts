@@ -1,3 +1,4 @@
+//Database and application port
 
 export const dbConfig = () => ({
     port: parseInt(process.env.PORT, 10) || 3000,
@@ -9,8 +10,12 @@ export const dbConfig = () => ({
       dialect: process.env.DIALECT,
       database: process.env.DATABASE
     },
-    jwt:{
-      secret: process.env.SECRET,
-      expire_time: process.env.EXPIRE_TIME
-    }
-  });
+  });   
+         
+  //JWT 
+  export const  jwtConfig = () => ({
+    secret : process.env.SECRET,
+    expireTime : process.env.EXPIRE_TIME
+  })
+
+  //Mail Config

@@ -6,18 +6,17 @@ import { UsersController } from './users/controller/users.controller';
 import {dbConfig} from './Enviroment/config/user.configuration';
 import { ConfigModule} from '@nestjs/config';
 import { DatabaseModule } from './database/module/database.module';
-import { EnvService } from './Enviroment/env.service';
 import { AuthModule } from './auth/auth.module';
 import { NotesModule } from './notes/module/notes.module';
 import { NotesSharingService } from './notes/services/notes-sharing.service';
+import { MailModule } from './mail/mail.module';
 
 @Module({
   imports: [UsersModule,ConfigModule.forRoot({
     isGlobal: true,
     load: [dbConfig]
-}),DatabaseModule, AuthModule, NotesModule],
+}),DatabaseModule, AuthModule, NotesModule, MailModule],
   controllers: [AppController,UsersController],
-  providers: [AppService,EnvService],
-  exports: [EnvService]
+  providers: [AppService],
 })
 export class AppModule {}

@@ -62,7 +62,6 @@
       border-radius:
         8px;
       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      margin-top: 20px;
       overflow:
         hidden;
     }
@@ -113,157 +112,153 @@
       T-EXT Keep Notes
     </a>
     <form id="logOut" action='/auth/log_out' method='get'>
-      <button class='btn btn-danger btn-logOut' form="logOut" > LogOut</button>
+      <button class='btn btn-danger btn-logOut' form="logOut"> LogOut</button>
     </form>
 
   </nav>
 
   <div class='container mt-3'>
-    <form id='noteForm' action='/notes' method='post'>
+    <form id='noteForm' action='/notes/dashboard' method='post'>
       <div class='note-container'>
         <div class='note-card'>
           <input type='text' placeholder='Title...' class='note-title' name='title' />
           <textarea placeholder='Take a Note...' class='note-text' name='content'></textarea>
           <div class='note-actions'>
             <button class='btn btn-primary btn-save'>Save :)</button>
-
           </div>
         </div>
       </div>
     </form>
   </div>
 
-<div style="display: flex;">
-  <div class='container mt-5'>
-    <label style="font-weight: bolder; display:flex; justify-content: center;">My Notes</label>
-    <table class='table' >
-      <thead>
-        <tr class='table-primary'>
-          <th scope='col'>Note Id</th>
-          <th scope='col'>Title</th>
-          <th scope='col'>Note</th>
-          <th scope='col'></th>
-          <th scope='col'>Actions</th>
-          <th scope='col'></th>
-        </tr>
-      </thead>
-      <tbody>
-        {{#each notesData.data}}
-        <tr>
-          <th scope='row' class='table-info'>{{this.id}}</th>
-          <td>{{this.title}}</td>
-          <td class='table-warning'>{{this.content}}</td>
-
-          <td>
-            <form action="/notes/{{this.id}}" method="get">
-            <button class='btn btn-outline-primary'>Edit</button>
-            </form>
-          </td>
-          
-          <td>
-            <form action="/notes/{{this.id}}" method='post' >
-              <input type='hidden' name='_method' value='DELETE' />
-              <button class='btn btn-outline-danger' type='submit'>Delete</button>
-            </form>
-          </td>
-          <td>
-            <form action="/notes/share/{{this.id}}" method='get' >
-            <button class='btn btn-outline-info'>Share</button>
-            </form>
-          </td>
-        </tr>
-        {{/each}}
-      </tbody>
-    </table>
-  </div>
-
-  
-{{#if notesData.receivedData}}
-  <div class='container mt-5'>
-    <label style="font-weight: bolder; display:flex; justify-content: center;">My Received Notes</label>
-    <table class='table'>
-      <thead>
-        <tr class='table-primary'>
-          <th scope="col">Sender</th>
-          <th scope='col'>Title</th>
-          <th scope='col'>Note</th>
-        </tr>
-      </thead>
-      <tbody>
-        {{#each notesData.receivedData}}
-        <tr>
-          <td>{{this.username}}</td>
-        
-          <td>{{this.title}}</td>
-          <td class='table-warning'>{{this.content}}</td>
-
-          {{!-- <td>
-            <form action="/notes/{{this.id}}" method="get">
-            <button class='btn btn-outline-primary'>Edit</button>
-            </form>
-          </td>
-          
-          <td>
-            <form action="/notes/{{this.id}}" method='post' >
-              <input type='hidden' name='_method' value='DELETE' />
-              <button class='btn btn-outline-danger' type='submit'>Delete</button>
-            </form>
-          </td>
-          <td>
-            <form action="/notes/share/{{this.id}}" method='get' >
-            <button class='btn btn-outline-info'>Share</button>
-            </form>
-          </td> --}}
-        </tr>
-        {{/each}}
-      </tbody>
-    </table>
-  </div>
-  {{/if}}
-
-  
-{{#if notesData.sharedData}}
+  <div style="display: flex;">
     <div class='container mt-5'>
-      <label style="font-weight: bolder; display:flex; justify-content: center;">My Sent Notes</label>
-    <table class='table'>
-      <thead>
-        <tr class='table-primary'>
-          <th scope="col"> Receiver </th>
-          <th scope='col'>Title</th>
-          <th scope='col'>Note</th>
-        </tr>
-      </thead>
-      <tbody>
-        {{#each notesData.sharedData}}
-        <tr>
-          <td>{{this.username}}</td>
-          <td>{{this.title}}</td>
-          <td class='table-warning'>{{this.content}}</td>
-
-          {{!-- <td>
-            <form action="/notes/{{this.id}}" method="get">
-            <button class='btn btn-outline-primary'>Edit</button>
-            </form>
-          </td>
-
-  
-          
-          <td>
-            <form action="/notes/{{this.id}}" method='post' >
-              <input type='hidden' name='_method' value='DELETE' />
-              <button class='btn btn-outline-danger' type='submit'>Delete</button>
-            </form>
-          </td>
-          <td>
-            <form action="/notes/share/{{this.id}}" method='get' >
-            <button class='btn btn-outline-info'>Share</button>
-            </form>
-          </td> --}}
-        </tr>
-        {{/each}}
-      </tbody>
-    </table>
+      <table class='table'>
+        <thead>
+          <tr class='table-white'>
+            <th scope='col'>
+              <a href="/notes/dashboard?shared=all" class='btn btn-outline-danger'>My Notes</a>
+            </th>
+            <th scope='col'>
+              <a href="/notes/dashboard?shared=byMe" class='btn btn-outline-dark'>Shared Notes</a>
+            </th>
+            <th scope='col'>
+              <a href="/notes/dashboard?shared=withMe" class='btn btn-outline-success'>Received Notes</a>
+            </th>
+          </tr>
+        </thead>
+      </table>
+    </div>
   </div>
+
+
+  {{#if notes}}
+  <div style="display: flex;">
+    <div class='container'>
+      <table class='table'>
+        <thead>
+          <tr class='table-white'>
+            <th scope='col'></th>
+            <th scope='col'>My Notes</th>
+            <th scope='col'></th>
+            <th scope='col'></th>
+            <th scope='col'></th>
+            <th scope='col'></th>
+          </tr>
+          <tr class='table-primary'>
+            <th scope='col'>Title</th>
+            <th scope='col'>Note</th>
+            <th scope='col'></th>
+            <th scope='col'>Actions</th>
+            <th scope='col'></th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each notes}}
+          <tr>
+            <td>{{this.title}}</td>
+            <td class='table-warning'>{{this.content}}</td>
+
+            <td>
+              <a href="/notes/{{this.id}}" class='btn btn-outline-primary'>Edit</a>
+            </td>
+
+            <td>
+              <form action="/notes/{{this.id}}" method='post'>
+                <input type='hidden' name='_method' value='DELETE' />
+                <button class='btn btn-outline-danger' type='submit'>Delete</button>
+              </form>
+            </td>
+            <td>
+              <a href="/notes/share/{{this.id}}" class='btn btn-outline-info'>Share</a>
+            </td>
+          </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
+    {{/if}}
+
+
+    {{#if receivedNotes}}
+    <div class='container '>
+      <table class='table'>
+        <thead>
+          <tr class='table-white'>
+            <th scope='col'></th>
+            <th scope='col'>Notes Shared With Me</th>
+            <th scope='col'></th>
+          </tr>
+          <tr class='table-primary'>
+            <th scope="col">Sender</th>
+            <th scope='col'>Title</th>
+            <th scope='col'>Note</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each receivedNotes}}
+          <tr>
+            <td>{{this.username}}</td>
+
+            <td>{{this.title}}</td>
+            <td class='table-warning'>{{this.content}}</td>
+          </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
+    {{/if}}
+
+
+    {{#if sharedNotes}}
+    <div class='container'>
+      <table class='table'>
+        <thead>
+          <tr class='table-white'>
+            <th scope='col'>Notes Shared By Me</th>
+            <th scope='col'></th>
+            <th scope='col'></th>
+
+
+          </tr>
+
+          <tr class='table-primary'>
+            <th scope="col"> Receiver </th>
+            <th scope='col'>Title</th>
+            <th scope='col'>Note</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each sharedNotes}}
+          <tr>
+            <td>{{this.username}}</td>
+            <td>{{this.title}}</td>
+            <td class='table-warning'>{{this.content}}</td>
+          </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
   </div>
   {{/if}}
   <script src='https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js'

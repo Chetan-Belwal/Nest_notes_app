@@ -4,7 +4,6 @@ import { InjectModel } from '@nestjs/sequelize';
 import { UserModel } from 'src/database/models/user.model';
 import { UserLoginDto } from 'src/users/dtos/user-login.dto/user-login.dto';
 import { decodePassword } from 'src/utils/bcrypt';
-import { IdDto } from './dto/id.dto';
 
 @Injectable()
 export class AuthService {
@@ -46,7 +45,7 @@ export class AuthService {
 
 
  
-  async getById(userData: IdDto) {
+  async getById(userData: any) {
     console.log(userData.user_id)
     const user = await this.userModel.findOne({ where: {
         id:userData.user_id

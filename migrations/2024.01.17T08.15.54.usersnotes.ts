@@ -1,7 +1,8 @@
-import { DataType } from "sequelize-typescript";
+import { DataType, Default } from "sequelize-typescript";
 
 export const up = async({context: sequelize}) => {
     await sequelize.getQueryInterface().createTable("notes",{
+        
         user_id:{
             type: DataType.INTEGER,
             allowNull: false,
@@ -25,6 +26,11 @@ export const up = async({context: sequelize}) => {
         content:{
             type: DataType.TEXT,
             allowNull: true
+        },   
+         deletedAt:
+        {
+            allowNull: true,
+            type: DataType.DATE
         },
         created_at:{
           type: DataType.DATE,
@@ -36,7 +42,7 @@ export const up = async({context: sequelize}) => {
           allowNull: false,
           defaultValue: sequelize.literal("CURRENT_TIMESTAMP()")
         }
-    })
+    },{paranoid : true})
 };
 
 
