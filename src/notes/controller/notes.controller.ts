@@ -10,7 +10,9 @@ import {
   Query,
   Redirect,
   Render,
+  UploadedFile,
   UseGuards,
+  UseInterceptors,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
@@ -22,6 +24,10 @@ import { UpdateNotesDto } from '../dto/updateNotes.dto';
 import { MapToNotePipe } from '../pipes/map-to-note/map-to-note.pipe';
 import { NoteModel } from 'src/database/models/note.model';
 import { NotesSharingService } from '../services/notes-sharing.service';
+import { Observable, of } from 'rxjs';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { diskStorage } from 'multer';
+import path = require('path');
 
 @Controller('notes')
 export class NotesController {
@@ -44,7 +50,7 @@ export class NotesController {
       const sharedNotes = await this.noteservice.showMySharedNotes(user);
       return { sharedNotes };
     } else {
-      const notes = await this.noteservice.showNotes(user);
+      const notes :NoteModel[] = await this.noteservice.showNotes(user);
       return { notes };
     }
   }
@@ -67,14 +73,6 @@ export class NotesController {
     return this.noteservice.delete_note(note);
   }
 
-  @Put(':id')
-  @Redirect('/notes/dashboard')
-  public async editAndSave(
-    @Param('id', ParseIntPipe, MapToNotePipe) note: NoteModel,
-    @Body() data: UpdateNotesDto,
-  ): Promise<UpdateNotesDto> {
-    return this.noteservice.updateNotes(note, data);
-  }
 
   @Render('notesEditor')
   @Get(':id')
@@ -85,6 +83,16 @@ export class NotesController {
     console.log(queryData, 'data');
     return { note: note.toJSON() };
   }
+
+  @Put(':id')
+  @Redirect('/notes/dashboard')
+  public async editAndSave(
+    @Param('id', ParseIntPipe, MapToNotePipe) note: NoteModel,
+    @Body() data: UpdateNotesDto,
+  ): Promise<UpdateNotesDto> {
+    return this.noteservice.updateNotes(note, data);
+  }
+
 
   @UseGuards(JwtAuthGuard)
   @Render('shareNotes')
@@ -112,6 +120,27 @@ export class NotesController {
     await this.shareService.saveShareInfo(user, user_id, note_id);
   }
 
-  // console.log(queryData, "data")
-  // return {note: note.toJSON()}
+  @Redirect('/notes/dashboard')
+  @UseGuards(JwtAuthGuard)
+  @UseInterceptors(FileInterceptor('file',{
+    storage:diskStorage({
+      destination:'./uploads/pfp',
+      filename:(req,file,cb) =>{
+        const filename: string = path.parse(file.originalname).name.replace(/\s/g,'')
+        const fileExtention: string = path.parse(file.originalname).ext
+
+        cb(null,`${filename} ${fileExtention}`)
+      }
+
+    })
+  }))
+  @Post('/upload')
+  uploadFile(@UploadedFile() file): Observable<Object>{
+    console.log(file,"filejkj")
+    return of({imagePath:file.filename})
+
+  }
+ 
+
+
 }

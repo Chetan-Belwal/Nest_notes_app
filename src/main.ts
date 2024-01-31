@@ -22,6 +22,7 @@ async function bootstrap() {
 
   //handlebars engine
   app.useStaticAssets(join(__dirname, '..', '..', 'public'));
+  console.log(join(__dirname, '..', '..', 'public'), "path")
   app.setBaseViewsDir(join(__dirname, '..', '..', 'views'));
   app.setViewEngine('hbs');
 

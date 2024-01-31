@@ -19,7 +19,7 @@
     }
 
     .navbar-brand img {
-      margin-right: 10px;
+      margin-left: 10px;
     }
 
     .note-container,
@@ -111,9 +111,27 @@
       <img src='../Images/tyrannosaurus-rex.png' width='35' height='35' class='d-inline-block align-top' alt='T-REX' />
       T-EXT Keep Notes
     </a>
-    <form id="logOut" action='/auth/log_out' method='get'>
-      <button class='btn btn-danger btn-logOut' form="logOut"> LogOut</button>
-    </form>
+    <div style="display: flex;">
+      <div class="dropdown" style="margin-right: 50px;">
+        <a href="#"
+          class="d-flex align-items-center justify-content-center p-3 link-dark text-decoration-none dropdown-toggle"
+          id="dropdownUser3" data-bs-toggle="dropdown" aria-expanded="false">
+          <img >
+        </a>
+        <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser3">
+          <form action="/notes/upload" method="post">
+          <li><button class="dropdown-item" >Upload Picture</button></li>
+          </form>
+        </ul>
+      </div>
+      <div style="margin-top: 5px;">
+        <form id="logOut" action='/auth/log_out' method='get'>
+          <button class='btn btn-danger btn-logOut' form="logOut"> LogOut</button>
+        </form>
+      </div>
+
+    </div>
+
 
   </nav>
 
@@ -176,21 +194,21 @@
         <tbody>
           {{#each notes}}
           <tr>
-            <td>{{this.title}}</td>
-            <td class='table-warning'>{{this.content}}</td>
+            <td>{{this.dataValues.title}}</td>
+            <td class='table-warning'>{{this.dataValues.content}}</td>
 
             <td>
-              <a href="/notes/{{this.id}}" class='btn btn-outline-primary'>Edit</a>
+              <a href="/notes/{{this.dataValues.id}}" class='btn btn-outline-primary'>Edit</a>
             </td>
 
             <td>
-              <form action="/notes/{{this.id}}" method='post'>
+              <form action="/notes/{{this.dataValues.id}}" method='post'>
                 <input type='hidden' name='_method' value='DELETE' />
                 <button class='btn btn-outline-danger' type='submit'>Delete</button>
               </form>
             </td>
             <td>
-              <a href="/notes/share/{{this.id}}" class='btn btn-outline-info'>Share</a>
+              <a href="/notes/share/{{this.dataValues.id}}" class='btn btn-outline-info'>Share</a>
             </td>
           </tr>
           {{/each}}
