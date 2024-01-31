@@ -135,8 +135,8 @@ export class NotesController {
     })
   }))
   @Post('/upload')
-  uploadFile(@UploadedFile() file): Observable<Object>{
-    console.log(file,"filejkj")
+  uploadFile(@UploadedFile() file: Express.Multer.File): Observable<Object>{
+    console.log(file,"file")
     return of({imagePath:file.filename})
 
   }

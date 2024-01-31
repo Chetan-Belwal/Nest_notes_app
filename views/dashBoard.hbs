@@ -119,7 +119,8 @@
           <img >
         </a>
         <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser3">
-          <form action="/notes/upload" method="post">
+          <form action="/notes/upload" method="post" enctype="multipart/form-data">
+          <input type="file" name="file" >
           <li><button class="dropdown-item" >Upload Picture</button></li>
           </form>
         </ul>
