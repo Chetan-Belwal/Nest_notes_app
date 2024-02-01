@@ -14,6 +14,9 @@ export class UserModel extends BaseModel<UserModel> {
   @Column
   public password: string;
 
+  @Column
+  public profile_image: string;
+
  @HasMany(() => NoteModel,{foreignKey:'user_id', onDelete: 'cascade', onUpdate:'cascade' })
  public notes : NoteModel
 

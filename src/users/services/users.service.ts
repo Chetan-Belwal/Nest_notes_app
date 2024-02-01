@@ -3,6 +3,8 @@ import { UserModel } from '../../database/models/user.model';
 import { InjectModel } from '@nestjs/sequelize';
 import { CreateUserDto } from 'src/users/dtos/create-user/create-user.dto';
 import { encodePassword } from 'src/utils/bcrypt';
+import { where } from 'sequelize';
+import { NoteModel } from 'src/database/models/note.model';
 
 @Injectable()
 export class UsersService {
@@ -27,7 +29,18 @@ export class UsersService {
         id: id
       },
     })
-
   }
 
+
+  public async updateOne(user:any,profile_image : string){
+     await this.userModel.update({
+      profile_image:profile_image
+    },{where:{id:user}})
+    
+  }
+
+  public async findOne(id: any): Promise<UserModel> {
+    // const user_id = id.user_id
+    return await this.userModel.findByPk(id);
+  }
 }

@@ -43,15 +43,17 @@ export class NotesController {
     @User() user: any,
     @Query('shared') share: 'all' | 'withMe' | 'byMe',
   ) {
+
+   const profile_image = this.noteservice.findPic(user)
     if (share === 'withMe') {
       const receivedNotes = await this.noteservice.showMyReceivedNotes(user);
-      return { receivedNotes };
+      return { receivedNotes ,profile_image};
     } else if (share === 'byMe') {
       const sharedNotes = await this.noteservice.showMySharedNotes(user);
-      return { sharedNotes };
+      return { sharedNotes ,profile_image};
     } else {
       const notes :NoteModel[] = await this.noteservice.showNotes(user);
-      return { notes };
+      return { notes ,profile_image };
     }
   }
 
@@ -120,27 +122,7 @@ export class NotesController {
     await this.shareService.saveShareInfo(user, user_id, note_id);
   }
 
-  @Redirect('/notes/dashboard')
-  @UseGuards(JwtAuthGuard)
-  @UseInterceptors(FileInterceptor('file',{
-    storage:diskStorage({
-      destination:'./uploads/pfp',
-      filename:(req,file,cb) =>{
-        const filename: string = path.parse(file.originalname).name.replace(/\s/g,'')
-        const fileExtention: string = path.parse(file.originalname).ext
-
-        cb(null,`${filename} ${fileExtention}`)
-      }
-
-    })
-  }))
-  @Post('/upload')
-  uploadFile(@UploadedFile() file: Express.Multer.File): Observable<Object>{
-    console.log(file,"file")
-    return of({imagePath:file.filename})
-
-  }
- 
+  
 
 
 }

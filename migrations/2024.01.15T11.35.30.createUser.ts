@@ -20,6 +20,9 @@ export const up= async ({ context: sequelize }) => {
             type: DataType.STRING,
             allowNull: false,
           },
+          profile_image:{
+            type:DataType.STRING
+          },
           created_at:{
             type: DataType.DATE,
             allowNull: false,
