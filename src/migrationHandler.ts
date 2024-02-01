@@ -3,7 +3,7 @@ import { Sequelize } from 'sequelize';
 import { cwd } from 'node:process';
 
 
-const sequelize = new Sequelize('User', 'root', 'Rubi@123', {
+const sequelize = new Sequelize('User', 'root', '123', {
   
   dialect: 'mysql',
   host: 'localhost',

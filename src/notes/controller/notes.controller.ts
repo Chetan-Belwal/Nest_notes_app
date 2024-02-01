@@ -44,7 +44,7 @@ export class NotesController {
     @Query('shared') share: 'all' | 'withMe' | 'byMe',
   ) {
 
-   const profile_image = this.noteservice.findPic(user)
+   const profile_image = await this.noteservice.findPic(user)
     if (share === 'withMe') {
       const receivedNotes = await this.noteservice.showMyReceivedNotes(user);
       return { receivedNotes ,profile_image};
