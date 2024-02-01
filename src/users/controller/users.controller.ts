@@ -1,19 +1,38 @@
 import {
   Body,
   Controller,
-  Delete,
   Get,
   Post,
   Redirect,
   Render,
-  Res,
+  UploadedFile,
   UseGuards,
+  UseInterceptors,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
 import { CreateUserDto } from '../dtos/create-user/create-user.dto';
 import { UsersService } from '../services/users.service';
 import { UserModel } from 'src/database/models/user.model';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { diskStorage } from 'multer';
+import path = require('path');
+import { Observable, of } from 'rxjs';
+import { JwtAuthGuard } from 'src/auth/guard/jwt.guard';
+import { User } from 'user.decorator';
+
+ export const storage = {
+  storage:diskStorage({
+    destination:'./uploads/pfp',
+    filename:(req,file,cb) =>{
+      const filename: string = path.parse(file.originalname).name.replace(/\s/g, '')
+      const fileExtention: string = path.parse(file.originalname).ext
+
+      cb(null,`${filename}${fileExtention}`)
+    }
+
+  })
+}
 
 @Controller('users') // /users
 export class UsersController {
@@ -41,5 +60,16 @@ export class UsersController {
   public findOne(@Body() userId: CreateUserDto) {
     console.log(userId);
   }
-
+  
+  @Redirect('/notes/dashboard')
+  @UseGuards(JwtAuthGuard)
+  @UseInterceptors(FileInterceptor('file',storage))
+  @Post('/upload')
+  uploadFile(@UploadedFile() file: Express.Multer.File,@User() user: any){
+    console.log(file,"file")
+    const user_id = user.user_id
+    this.userService.updateOne(user_id,file.filename)
+    return {imagePath:file.filename}
+  }
+ 
 }

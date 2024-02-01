@@ -22,10 +22,12 @@ async function bootstrap() {
 
   //handlebars engine
   app.useStaticAssets(join(__dirname, '..', '..', 'public'));
-  console.log(join(__dirname, '..', '..', 'public'), "path")
+  console.log(join(__dirname, '..', '..', 'uploads/pfp'), "path")
   app.setBaseViewsDir(join(__dirname, '..', '..', 'views'));
   app.setViewEngine('hbs');
 
+  //assest for uploads
+  app.useStaticAssets(join(__dirname, '..','..', 'uploads'));
   //Swagger Api Setup
   const config = new DocumentBuilder()
     .setTitle('Cats example')

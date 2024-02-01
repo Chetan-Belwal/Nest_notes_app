@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { Op } from 'sequelize';
 import { NoteModel } from 'src/database/models/note.model';
@@ -13,6 +13,8 @@ export class NotesService {
     private noteModel: typeof NoteModel,
     @InjectModel(SharedNotesModel)
     private sharedNote: typeof SharedNotesModel,
+    @InjectModel(SharedNotesModel)
+    private userModel: typeof UserModel,
     private mailService: MailService,
   ) {}
 
@@ -174,5 +176,14 @@ export class NotesService {
    */
   public async findOne(id: number): Promise<NoteModel> {
     return await this.noteModel.findByPk(id);
+  }
+
+  public async findPic(id: any) {
+    const user_id = id.user_id
+    console.log(user_id,"user_id")
+    const data =await this.userModel.findAll();
+    console.log(data)
+    const profile_pic = data
+    return profile_pic
   }
 }
