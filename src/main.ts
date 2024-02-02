@@ -19,6 +19,8 @@ async function bootstrap() {
 
   //port
   const port = configService.get('port');
+  const testing = configService.get('filesystem');
+  console.log(testing)
 
   //handlebars engine
   app.useStaticAssets(join(__dirname, '..', '..', 'public'));
@@ -27,7 +29,7 @@ async function bootstrap() {
   app.setViewEngine('hbs');
 
   //assest for uploads
-  app.useStaticAssets(join(__dirname, '..','..', 'uploads'));
+  app.useStaticAssets(join(__dirname, '..','..', 'uploads/pfp'));
   //Swagger Api Setup
   const config = new DocumentBuilder()
     .setTitle('Cats example')

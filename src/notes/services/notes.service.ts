@@ -13,7 +13,7 @@ export class NotesService {
     private noteModel: typeof NoteModel,
     @InjectModel(SharedNotesModel)
     private sharedNote: typeof SharedNotesModel,
-    @InjectModel(SharedNotesModel)
+    @InjectModel(UserModel)
     private userModel: typeof UserModel,
     private mailService: MailService,
   ) {}
@@ -181,9 +181,9 @@ export class NotesService {
   public async findPic(id: any) {
     const user_id = id.user_id
     console.log(user_id,"user_id")
-    const data =await this.userModel.findAll();
+    const data =await this.userModel.findOne(user_id);
     console.log(data)
-    const profile_pic = data
+    const profile_pic = data.dataValues.profile_image
     return profile_pic
   }
 }

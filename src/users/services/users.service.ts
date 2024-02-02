@@ -1,19 +1,18 @@
 import { Injectable } from '@nestjs/common';
 import { UserModel } from '../../database/models/user.model';
 import { InjectModel } from '@nestjs/sequelize';
-import { CreateUserDto } from 'src/users/dtos/create-user/create-user.dto';
 import { encodePassword } from 'src/utils/bcrypt';
-import { where } from 'sequelize';
-import { NoteModel } from 'src/database/models/note.model';
+import { Storage } from '@squareboat/nest-storage';
+import { readFile } from 'fs';
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectModel(UserModel)
-    private userModel: typeof UserModel,
+    public userModel: typeof UserModel,
   ) { }
 
-  public async create(createUser : CreateUserDto) {
+  public async create(createUser : Pick<UserModel, 'name' | 'email' | 'password' >) {
     const password = await encodePassword(createUser.password);
     console.log(password);
     
@@ -23,7 +22,7 @@ export class UsersService {
       .save();
   }
 
-  public async deleteId(id: number) {
+  public async deleteUser(id: number) {
     return await this.userModel.destroy({
       where:{
         id: id
@@ -31,16 +30,18 @@ export class UsersService {
     })
   }
 
-
-  public async updateOne(user:any,profile_image : string){
+  public async updateOne(user: Pick<UserModel, 'id'>,profile_image : string){
      await this.userModel.update({
       profile_image:profile_image
     },{where:{id:user}})
-    
   }
 
   public async findOne(id: any): Promise<UserModel> {
     // const user_id = id.user_id
     return await this.userModel.findByPk(id);
+  }
+
+  public async uploadProfilePicture(picture:any) {
+    await Storage.disk('local').put(picture.image.path, readFile(picture.image.path,()=>{}))
   }
 }
