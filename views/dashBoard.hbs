@@ -116,7 +116,7 @@
         <a href="/notes/dashboard"
           class="d-flex align-items-center justify-content-center p-3 link-dark text-decoration-none dropdown-toggle"
           id="dropdownUser3" data-bs-toggle="dropdown" aria-expanded="false">
-          <img src="http://localhost:3000/pfp/{{profile_image}}" style="height:50px; width:50px" alt="image" >
+          <img class="rounded-circle shadow-4-strong" src="/{{profile_image}}" style="height: 50px; width: 50px" >
         </a>
         <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser3">
           <form action="/users/upload" method="post" enctype="multipart/form-data">

@@ -28,6 +28,7 @@ import { Observable, of } from 'rxjs';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import path = require('path');
+import { Local } from '@squareboat/nest-storage';
 
 @Controller('notes')
 export class NotesController {

@@ -19,7 +19,5 @@ export class AppController {
   @Render('dashBoard')
   dash() {
     return { message: 'Hello world!' };
-  }
-
-  
+  }  
 }

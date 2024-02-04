@@ -181,7 +181,8 @@ export class NotesService {
   public async findPic(id: any) {
     const user_id = id.user_id
     console.log(user_id,"user_id")
-    const data =await this.userModel.findByPk(user_id);
+    const data =await this.userModel.findOne(user_id);
+    console.log(data)
     const profile_pic = data.dataValues.profile_image
     return profile_pic
   }
