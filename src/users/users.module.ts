@@ -5,12 +5,16 @@ import { SequelizeModule } from '@nestjs/sequelize';
 import { UserModel } from '../database/models/user.model';
 import { NestjsFormDataModule } from 'nestjs-form-data';
 import { FormDataModule } from 'src/form-data/form-data.module';
-
+import { HashService } from './services/hash.service';
 
 @Module({
-  imports: [SequelizeModule.forFeature([ UserModel]),NestjsFormDataModule,FormDataModule],
+  imports: [
+    SequelizeModule.forFeature([UserModel]),
+    NestjsFormDataModule,
+    FormDataModule,
+  ],
   controllers: [UsersController],
-  providers: [UsersService],
-  exports: [UsersService]
+  providers: [UsersService, HashService],
+  exports: [UsersService, HashService],
 })
 export class UsersModule {}

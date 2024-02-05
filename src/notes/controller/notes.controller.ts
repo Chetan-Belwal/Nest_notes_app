@@ -10,9 +10,7 @@ import {
   Query,
   Redirect,
   Render,
-  UploadedFile,
   UseGuards,
-  UseInterceptors,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
@@ -24,11 +22,9 @@ import { UpdateNotesDto } from '../dto/updateNotes.dto';
 import { MapToNotePipe } from '../pipes/map-to-note/map-to-note.pipe';
 import { NoteModel } from 'src/database/models/note.model';
 import { NotesSharingService } from '../services/notes-sharing.service';
-import { Observable, of } from 'rxjs';
-import { FileInterceptor } from '@nestjs/platform-express';
-import { diskStorage } from 'multer';
 import path = require('path');
 import { Local } from '@squareboat/nest-storage';
+import { UserModel } from '../../database/models/user.model';
 
 @Controller('notes')
 export class NotesController {
@@ -41,20 +37,19 @@ export class NotesController {
   @Render('dashBoard')
   @Get('dashboard')
   public async displayNotes(
-    @User() user: any,
+    @User() user: UserModel,
     @Query('shared') share: 'all' | 'withMe' | 'byMe',
   ) {
-
-   const profile_image = await this.noteservice.findPic(user)
+    console.log('Message', user);
     if (share === 'withMe') {
       const receivedNotes = await this.noteservice.showMyReceivedNotes(user);
-      return { receivedNotes ,profile_image};
+      return { receivedNotes };
     } else if (share === 'byMe') {
       const sharedNotes = await this.noteservice.showMySharedNotes(user);
-      return { sharedNotes ,profile_image};
+      return { sharedNotes };
     } else {
-      const notes :NoteModel[] = await this.noteservice.showNotes(user);
-      return { notes ,profile_image };
+      const notes: NoteModel[] = await this.noteservice.showNotes(user);
+      return { notes };
     }
   }
 
@@ -64,7 +59,7 @@ export class NotesController {
   @Post('dashboard')
   public async saveNotes(
     @Body() noteContent: NotesDto,
-    @User('user_id') userId: number,
+    @User() userId: UserModel,
   ) {
     return await this.noteservice.saveNote(userId, noteContent);
   }
@@ -72,10 +67,10 @@ export class NotesController {
   @Redirect('/notes/dashboard')
   @Delete(':id')
   public async delete_user(
-    @Param('id', ParseIntPipe, MapToNotePipe) note: NoteModel,) {
-    return this.noteservice.delete_note(note);
+    @Param('id', ParseIntPipe, MapToNotePipe) note: NoteModel,
+  ) {
+    return this.noteservice.deleteNote(note);
   }
-
 
   @Render('notesEditor')
   @Get(':id')
@@ -96,16 +91,15 @@ export class NotesController {
     return this.noteservice.updateNotes(note, data);
   }
 
-
   @UseGuards(JwtAuthGuard)
   @Render('shareNotes')
   @Get('/share/:id')
   public async shareNotes(
-    @User() user: any,
-    @Param('id', ParseIntPipe) noteId: number,
+    @User() user: UserModel,
+    @Param('id', ParseIntPipe) noteId: NoteModel,
   ) {
     console.log(noteId);
-    const data = await this.shareService.getAll(noteId, user);
+    const data = this.shareService.getAll(noteId, user);
     console.log(data);
     return { data };
   }
@@ -122,8 +116,4 @@ export class NotesController {
     console.log(sender_id, 'sender_id');
     await this.shareService.saveShareInfo(user, user_id, note_id);
   }
-
-  
-
-
 }

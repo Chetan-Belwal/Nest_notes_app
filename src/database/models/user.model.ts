@@ -1,4 +1,8 @@
-import { Table, Column, BelongsToMany, BelongsTo, HasOne, HasMany } from 'sequelize-typescript';
+import {
+  Table,
+  Column,
+  HasMany,
+} from 'sequelize-typescript';
 import { BaseModel } from './base.model';
 import { SharedNotesModel } from './shared.notes.model';
 import { NoteModel } from './note.model';
@@ -17,12 +21,24 @@ export class UserModel extends BaseModel<UserModel> {
   @Column
   public profile_image: string;
 
- @HasMany(() => NoteModel,{foreignKey:'user_id', onDelete: 'cascade', onUpdate:'cascade' })
- public notes : NoteModel
+  @HasMany(() => NoteModel, {
+    foreignKey: 'user_id',
+    onDelete: 'cascade',
+    onUpdate: 'cascade',
+  })
+  public notes: NoteModel;
 
-  @HasMany(() => SharedNotesModel,{foreignKey:'sender_id', onDelete: 'cascade', onUpdate:'cascade' })
-  public senders : SharedNotesModel[]
+  @HasMany(() => SharedNotesModel, {
+    foreignKey: 'sender_id',
+    onDelete: 'cascade',
+    onUpdate: 'cascade',
+  })
+  public senders: SharedNotesModel[];
 
-  @HasMany(() => SharedNotesModel,{foreignKey:'receiver_id', onDelete: 'cascade', onUpdate:'cascade' })
-  public receivers : SharedNotesModel[]
+  @HasMany(() => SharedNotesModel, {
+    foreignKey: 'receiver_id',
+    onDelete: 'cascade',
+    onUpdate: 'cascade',
+  })
+  public receivers: SharedNotesModel[];
 }

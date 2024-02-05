@@ -3,6 +3,7 @@ import { InjectModel } from '@nestjs/sequelize';
 import { Op } from 'sequelize';
 import { SharedNotesModel } from 'src/database/models/shared.notes.model';
 import { UserModel } from 'src/database/models/user.model';
+import { NoteModel } from '../../database/models/note.model';
 
 @Injectable()
 export class NotesSharingService {
@@ -15,12 +16,12 @@ export class NotesSharingService {
    * This service will return all the user present in the database
    */
 
-  public async getAll(note_id: number, userId: any) {
-    const users = await this.userModel.findAll({
-      where: { id: { [Op.ne]: userId.user_id } },
+  public async getAll(note_id: NoteModel, userId: UserModel) {
+    const users : Promise<UserModel[]> = this.userModel.findAll({
+      where: { id: { [Op.ne]: userId.id} },
       raw: true,
     });
-    const result = users.map((item) => {
+    const result =  (await users).map((item) => {
       return { name: item.name, user_id: item.id, note_id: note_id };
     });
     console.log('testing the result', result);
@@ -39,10 +40,10 @@ export class NotesSharingService {
     receiver_id: number,
     note_id: number,
   ) {
-    return await this.sharedNote
+    return this.sharedNote
       .build()
       .set({
-        sender_id: sender_id.user_id,
+        sender_id: sender_id,
         receiver_id: receiver_id,
         shared_note_id: note_id,
       })

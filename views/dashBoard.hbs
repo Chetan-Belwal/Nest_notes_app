@@ -113,19 +113,19 @@
     </a>
     <div style="display: flex;">
       <div class="dropdown" style="margin-right: 50px;">
-        <a href="/notes/dashboard"
+        <a href="#"
           class="d-flex align-items-center justify-content-center p-3 link-dark text-decoration-none dropdown-toggle"
           id="dropdownUser3" data-bs-toggle="dropdown" aria-expanded="false">
-          <img class="rounded-circle shadow-4-strong" src="/{{profile_image}}" style="height: 50px; width: 50px" >
+          <img class="rounded-circle shadow-4-strong" src="/files" style="height: 50px; width: 50px" >
         </a>
         <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser3">
           <form action="/users/upload" method="post" enctype="multipart/form-data">
-          <input type="file" name="file" >
+          <input type="file" name="avatar" >
           <li><button class=" btn btn-success" style="margin-top: 10px;" >Upload Picture</button></li>
           </form>
         </ul>
       </div>
-      <div style="margin-top: 5px;">
+      <div style="margin-top: 22px;">
         <form id="logOut" action='/auth/log_out' method='get'>
           <button class='btn btn-danger btn-logOut' form="logOut"> LogOut</button>
         </form>

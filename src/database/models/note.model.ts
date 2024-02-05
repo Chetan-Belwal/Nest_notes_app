@@ -4,9 +4,6 @@ import {
   ForeignKey,
   BelongsTo,
   HasMany,
-  BelongsToMany,
-  HasOne,
-  Default,
   DeletedAt,
 } from 'sequelize-typescript';
 import { UserModel } from './user.model';

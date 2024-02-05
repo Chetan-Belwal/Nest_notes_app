@@ -5,6 +5,7 @@ import { NoteModel } from 'src/database/models/note.model';
 import { SharedNotesModel } from 'src/database/models/shared.notes.model';
 import { UserModel } from 'src/database/models/user.model';
 import { MailService } from 'src/mail/mail.service';
+import { UsersService } from '../../users/services/users.service';
 
 @Injectable()
 export class NotesService {
@@ -13,8 +14,7 @@ export class NotesService {
     private noteModel: typeof NoteModel,
     @InjectModel(SharedNotesModel)
     private sharedNote: typeof SharedNotesModel,
-    @InjectModel(UserModel)
-    private userModel: typeof UserModel,
+    private userService: UsersService,
     private mailService: MailService,
   ) {}
 
@@ -34,10 +34,10 @@ export class NotesService {
   }
 
   //Display user notes
-  public async showNotes(note: Pick<NoteModel, 'user_id'>) {
+  public async showNotes(note: Pick<UserModel, 'id'>) {
     return await this.noteModel.findAll({
       where: {
-        user_id: note.user_id,
+        user_id: note.id,
       },
     });
   }
@@ -49,11 +49,11 @@ export class NotesService {
    * @returns
    */
 
-  public async showMyReceivedNotes(note: Pick<NoteModel, 'user_id'>) {
+  public async showMyReceivedNotes(note: UserModel) {
     console.log(note, 'lol');
 
     const data = await this.sharedNote.findAll({
-      where: { receiver_id: note.user_id },
+      where: { receiver_id: note.id },
       attributes: ['shared_note_id'],
       include: [
         { model: UserModel, attributes: ['name'], as: 'sender' },
@@ -89,13 +89,13 @@ export class NotesService {
    * @returns
    */
 
-  public async showMySharedNotes(note: NoteModel) {
+  public async showMySharedNotes(note: UserModel) {
   // const sharesWith = await note.$get('shares');
   // console.log(sharesWith, "sdhares")  
   
     
-    const data = await this.sharedNote.findAll({
-      where: { sender_id: note.user_id },
+    const data : SharedNotesModel[] = await this.sharedNote.findAll({
+      where: { sender_id: note.id},
       attributes: ['shared_note_id'],
       include: [
         { model: UserModel, attributes: ['name'], as: 'receiver' },
@@ -109,7 +109,6 @@ export class NotesService {
           as: 'notes',
         },
       ],
-      raw: true,
     });
     console.log(data)
 
@@ -132,7 +131,7 @@ export class NotesService {
    * @returns deletes the data
    */
 
-  public async delete_note(note: NoteModel): Promise<any> {
+  public async deleteNote(note: NoteModel): Promise<any> {
     console.log('test', note.id);
     const data: any = await this.sharedNote.findAll({
       where: { sender_id: note.dataValues.user_id },
@@ -178,12 +177,10 @@ export class NotesService {
     return await this.noteModel.findByPk(id);
   }
 
-  public async findPic(id: any) {
-    const user_id = id.user_id
-    console.log(user_id,"user_id")
-    const data =await this.userModel.findOne(user_id);
-    console.log(data)
-    const profile_pic = data.dataValues.profile_image
-    return profile_pic
-  }
+  // public async findPic(user:UserModel) {
+  //   const picture = user.profile_image
+  //   console.log(picture)
+  //   const profile_pic = data.dataValues.profile_image
+  //   return profile_pic
+  // }
 }

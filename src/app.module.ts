@@ -4,9 +4,9 @@ import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
 import { UsersController } from './users/controller/users.controller';
 import { dbConfig } from './Enviroment/config/user.configuration';
-import filesystem from './Enviroment/config/file-storage.config';
+import filesystem from './file-storage/file-storage.config';
 import { ConfigModule } from '@nestjs/config';
-import { DatabaseModule } from './database/module/database.module';
+import { DatabaseModule } from './database/database.module';
 import { AuthModule } from './auth/auth.module';
 import { NotesModule } from './notes/module/notes.module';
 import { MailModule } from './mail/mail.module';
@@ -31,7 +31,7 @@ import { FormDataModule } from './form-data/form-data.module';
     NestjsFormDataModule,
     FormDataModule
   ],
-  controllers: [AppController, UsersController],
+  controllers: [AppController],
   providers: [AppService],
 })
 export class AppModule {}
