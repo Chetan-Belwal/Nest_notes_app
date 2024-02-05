@@ -5,7 +5,7 @@ export default registerAs('filesystem', () => ({
   disks: {
     local: {
       driver: 'local',
-      basePath: join(process.cwd(),'storage','uploads')
+      basePath: join(process.cwd(),'storage','pictures'),
     }
   }})
 );

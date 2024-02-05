@@ -3,7 +3,7 @@ import { UserModel } from '../../database/models/user.model';
 import { InjectModel } from '@nestjs/sequelize';
 import { encodePassword } from 'src/utils/bcrypt';
 import { Storage } from '@squareboat/nest-storage';
-import { readFile } from 'fs';
+import { readFile, readFileSync } from 'fs';
 
 @Injectable()
 export class UsersService {
@@ -30,18 +30,16 @@ export class UsersService {
     })
   }
 
-  public async updateOne(user: Pick<UserModel, 'id'>,profile_image : string){
-     await this.userModel.update({
-      profile_image:profile_image
-    },{where:{id:user}})
-  }
-
   public async findOne(id: any): Promise<UserModel> {
     // const user_id = id.user_id
     return await this.userModel.findByPk(id);
   }
 
-  public async uploadProfilePicture(picture:any) {
-    await Storage.disk('local').put(picture.image.path, readFile(picture.image.path,()=>{}))
+  public async uploadProfilePicture(user:any,picture:any) {
+  console.log(picture)
+    await Storage.disk('local').put(picture.originalName,readFileSync(picture.path));
+    await this.userModel.update({
+      profile_image:picture.originalName
+    },{where:{id:user.user_id}})
   }
 }

@@ -5,6 +5,7 @@ export class MyNestJsFormDataConfigService implements NestjsFormDataConfigFactor
       return {
         storage: FileSystemStoredFile,
         fileSystemStoragePath: '/tmp/nestjs-fd',
+        // autoDeleteFile:false
       };
     }
   }

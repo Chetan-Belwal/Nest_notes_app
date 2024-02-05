@@ -6,9 +6,9 @@ import { join } from 'path';
 export class FileStorageConfigService implements StorageOptions {
   default = 'local';
   public disks: Record<string, DiskOptions> = {
-    locals: {
+    local: {
       driver: 'local',
-      basePath: join(process.cwd(), 'storage', 'uploads'),
+      basePath: join(process.cwd(),'uploads','pfp'),
     },
     profileDisk: this.getAwsDisk(),
   };

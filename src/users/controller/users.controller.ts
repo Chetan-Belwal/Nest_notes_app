@@ -65,12 +65,10 @@ export class UsersController {
   
   @Redirect('/notes/dashboard')
   @UseGuards(JwtAuthGuard)
-  @FormDataRequest()
+  @FormDataRequest({storage:FileSystemStoredFile})
   @Post('/upload')
-  public async getFile(@Body() test: FormDataTestDto){
-    
-     await this.userService.uploadProfilePicture(test)
-    console.log("testing", test)
+  public async getFile(@Body()  test: FormDataTestDto,@User() user:number){
+     await this.userService.uploadProfilePicture(user,test['file'])
   }
   
 }
