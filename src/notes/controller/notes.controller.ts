@@ -99,7 +99,7 @@ export class NotesController {
     @Param('id', ParseIntPipe) noteId: NoteModel,
   ) {
     console.log(noteId);
-    const data = this.shareService.getAll(noteId, user);
+    const data = await this.shareService.getAll(noteId, user);
     console.log(data);
     return { data };
   }
@@ -108,12 +108,10 @@ export class NotesController {
   @Redirect('/notes/dashboard')
   @Post('save/share/:note_id/:user_id')
   public async shareInfo(
-    @User() user: any,
+    @User() user: UserModel,
     @Param('note_id', ParseIntPipe) note_id: number,
     @Param('user_id', ParseIntPipe) user_id: number,
   ) {
-    const sender_id = user.user_id;
-    console.log(sender_id, 'sender_id');
     await this.shareService.saveShareInfo(user, user_id, note_id);
   }
 }

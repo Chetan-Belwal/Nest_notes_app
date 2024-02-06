@@ -6,6 +6,7 @@ import { UserModel } from '../database/models/user.model';
 import { NestjsFormDataModule } from 'nestjs-form-data';
 import { FormDataModule } from 'src/form-data/form-data.module';
 import { HashService } from './services/hash.service';
+import { FileController } from './controller/file.controller';
 
 @Module({
   imports: [
@@ -13,7 +14,7 @@ import { HashService } from './services/hash.service';
     NestjsFormDataModule,
     FormDataModule,
   ],
-  controllers: [UsersController],
+  controllers: [UsersController,FileController],
   providers: [UsersService, HashService],
   exports: [UsersService, HashService],
 })

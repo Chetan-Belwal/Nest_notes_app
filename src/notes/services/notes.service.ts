@@ -56,7 +56,7 @@ export class NotesService {
       where: { receiver_id: note.id },
       attributes: ['shared_note_id'],
       include: [
-        { model: UserModel, attributes: ['name'], as: 'sender' },
+        { model: UserModel, attributes: ['name'], as: 'senders' },
         {
           model: NoteModel,
           attributes: ['title', 'content'],
@@ -90,10 +90,6 @@ export class NotesService {
    */
 
   public async showMySharedNotes(note: UserModel) {
-  // const sharesWith = await note.$get('shares');
-  // console.log(sharesWith, "sdhares")  
-  
-    
     const data : SharedNotesModel[] = await this.sharedNote.findAll({
       where: { sender_id: note.id},
       attributes: ['shared_note_id'],
@@ -108,9 +104,8 @@ export class NotesService {
           },
           as: 'notes',
         },
-      ],
+      ],raw:true
     });
-    console.log(data)
 
     const noteWithUsername = data.map((note) => {
       const noteObject = Object.assign({}, note);
@@ -137,7 +132,7 @@ export class NotesService {
       where: { sender_id: note.dataValues.user_id },
       attributes: ['shared_note_id'],
       include: [
-        { model: UserModel, attributes: ['name', 'email'], as: 'receiver' },
+        { model: UserModel, attributes: ['name', 'email'], as: 'receivers' },
         {
           model: NoteModel,
           attributes: ['title', 'content'],
@@ -148,7 +143,7 @@ export class NotesService {
           },
           as: 'notes',
         },
-        { model: UserModel, attributes: ['name'], as: 'sender' },
+        { model: UserModel, attributes: ['name'], as: 'senders' },
       ],
       plain: true,
     });
@@ -176,11 +171,4 @@ export class NotesService {
   public async findOne(id: number): Promise<NoteModel> {
     return await this.noteModel.findByPk(id);
   }
-
-  // public async findPic(user:UserModel) {
-  //   const picture = user.profile_image
-  //   console.log(picture)
-  //   const profile_pic = data.dataValues.profile_image
-  //   return profile_pic
-  // }
 }

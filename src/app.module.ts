@@ -8,7 +8,7 @@ import filesystem from './file-storage/file-storage.config';
 import { ConfigModule } from '@nestjs/config';
 import { DatabaseModule } from './database/database.module';
 import { AuthModule } from './auth/auth.module';
-import { NotesModule } from './notes/module/notes.module';
+import { NotesModule } from './notes/notes.module';
 import { MailModule } from './mail/mail.module';
 import { FileStorageModule } from './file-storage/file-storage.module';
 import {  StorageModule } from '@squareboat/nest-storage';

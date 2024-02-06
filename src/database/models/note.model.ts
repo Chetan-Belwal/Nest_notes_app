@@ -27,15 +27,11 @@ export class NoteModel extends BaseModel<NoteModel> {
 
   @BelongsTo(() => UserModel, {
     foreignKey: 'user_id',
-    onDelete: 'cascade',
-    onUpdate: 'cascade',
   })
   public user: UserModel[];
 
   @HasMany(() => SharedNotesModel, {
     foreignKey: 'shared_note_id',
-    onDelete: 'cascade',
-    onUpdate: 'cascade',
   })
   public shares: SharedNotesModel[];
 }

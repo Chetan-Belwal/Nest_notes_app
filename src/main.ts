@@ -5,6 +5,7 @@ import { join } from 'path';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import * as cookieParser from 'cookie-parser';
 import { ConfigService } from '@nestjs/config';
+import { prototype } from 'nodemailer/lib/ses-transport';
 var methodOverride = require('method-override');
 var bodyParser = require('body-parser');
 
@@ -18,9 +19,10 @@ async function bootstrap() {
   const configService = app.get(ConfigService);
 
   //port
-  const port = configService.get('port');
+  const port = configService.get('PORT');
+
   const testing = configService.get('filesystem');
-  console.log(process.cwd())
+  console.log(port)
 
   //handlebars engine
   app.useStaticAssets(join(__dirname, '..', '..', 'public'));

@@ -1,17 +1,13 @@
-import { DataType, Default } from "sequelize-typescript";
+import { DataType} from "sequelize-typescript";
+import {Migration} from '../../migrationHandler'
 
-export const up = async({context: sequelize}) => {
+
+export const up: Migration = async({context: sequelize}) => {
     await sequelize.getQueryInterface().createTable("notes",{
         
         user_id:{
             type: DataType.INTEGER,
             allowNull: false,
-            references:{
-                model: 'users',
-                key: 'id'
-            },
-            onDelete:'cascade',
-            onUpdate:'cascade'
         },
         id:{
             type: DataType.INTEGER,
@@ -41,14 +37,15 @@ export const up = async({context: sequelize}) => {
           type:DataType.DATE,
           allowNull: false,
           defaultValue: sequelize.literal("CURRENT_TIMESTAMP()")
-        }
-    },{paranoid : true})
+        },
+    },)
 };
 
 
 
 
 
-export const down = async ({ context: sequelize }) => {
+
+export const down : Migration = async ({ context: sequelize }) => {
 	await sequelize.getQueryInterface().dropTable('notes');
 };

@@ -1,6 +1,7 @@
 import { DataType } from "sequelize-typescript";
+import {Migration} from '../../migrationHandler'
 
-export const up = async ({context: sequelize }) => {
+export const up : Migration = async ({context: sequelize }) => {
     await sequelize.getQueryInterface().createTable('shared_notes', {
         id: {
             type: DataType.INTEGER,
@@ -11,23 +12,11 @@ export const up = async ({context: sequelize }) => {
         sender_id:{
             type: DataType.INTEGER,
             allowNull: false,
-            references:{
-                model: 'users',
-                key: 'id'
-            } ,
-            onDelete:'cascade',
-            onUpdate:'cascade'
         },
 
         receiver_id:{
             type: DataType.INTEGER,
             allowNull: false,
-            references:{
-                model: 'users',
-                key: 'id'
-            },
-            onDelete:'cascade',
-            onUpdate:'cascade'
         },
         shared_note_id:{
             type: DataType.INTEGER,
@@ -54,6 +43,6 @@ export const up = async ({context: sequelize }) => {
 
 };
 
-export const down = async ({context: sequelize})=> {
+export const down : Migration = async ({context: sequelize})=> {
    await sequelize.getQueryInterface().dropTable('shared_notes');
 };

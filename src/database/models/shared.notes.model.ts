@@ -18,13 +18,13 @@ export class SharedNotesModel extends BaseModel<SharedNotesModel> {
   @Column
   public shared_note_id: number;
 
-  @BelongsTo(() => UserModel,{foreignKey:'sender_id', onDelete: 'cascade', onUpdate:'cascade' })
+  @BelongsTo(() => UserModel,{foreignKey:'sender_id' })
   public sender : UserModel[]
 
-  @BelongsTo(() => UserModel,{foreignKey:'receiver_id', onDelete: 'cascade', onUpdate:'cascade' })
+  @BelongsTo(() => UserModel,{foreignKey:'receiver_id' })
   public receiver : UserModel[]
 
-  @BelongsTo(() => NoteModel,{foreignKey:'shared_note_id', onDelete: 'cascade', onUpdate:'cascade' })
+  @BelongsTo(() => NoteModel,{foreignKey:'shared_note_id' })
   public notes : NoteModel[]
 
 }

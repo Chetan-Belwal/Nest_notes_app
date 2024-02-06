@@ -17,7 +17,7 @@ export class AuthService {
     const user: UserModel = await this.userService.findOneByEmail(
       userLoginDto.email,
     );
-    console.log('password of the user', user.password);
+    console.log('password of the user', user);
 
     if (user) {
       const match = this.hashService.decodePassword(

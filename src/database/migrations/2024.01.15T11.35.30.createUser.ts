@@ -1,6 +1,8 @@
 import { DataType } from 'sequelize-typescript';
+import {Migration} from '../../migrationHandler'
 
-export const up= async ({ context: sequelize }) => {
+
+export const up : Migration = async ({ context: sequelize }) => {
   await sequelize.getQueryInterface().createTable('users', {
           id: {
             type: DataType.INTEGER,
@@ -36,6 +38,6 @@ export const up= async ({ context: sequelize }) => {
 	});
 };
 
-export const down = async ({ context: sequelize }) => {
+export const down : Migration = async ({ context: sequelize }) => {
 	await sequelize.getQueryInterface().dropTable('users');
 };

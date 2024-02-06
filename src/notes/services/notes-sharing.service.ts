@@ -17,11 +17,11 @@ export class NotesSharingService {
    */
 
   public async getAll(note_id: NoteModel, userId: UserModel) {
-    const users : Promise<UserModel[]> = this.userModel.findAll({
-      where: { id: { [Op.ne]: userId.id} },
+    const users = await this.userModel.findAll({
+      where: { id: { [Op.ne]: userId.id } },
       raw: true,
     });
-    const result =  (await users).map((item) => {
+    const result = users.map((item) => {
       return { name: item.name, user_id: item.id, note_id: note_id };
     });
     console.log('testing the result', result);
@@ -36,16 +36,16 @@ export class NotesSharingService {
    */
 
   public async saveShareInfo(
-    sender_id: any,
-    receiver_id: number,
-    note_id: number,
+    senderId: UserModel,
+    receiverId: number,
+    noteId: number,
   ) {
     return this.sharedNote
       .build()
       .set({
-        sender_id: sender_id,
-        receiver_id: receiver_id,
-        shared_note_id: note_id,
+        sender_id: senderId.id,
+        receiver_id: receiverId,
+        shared_note_id: noteId,
       })
       .save();
   }

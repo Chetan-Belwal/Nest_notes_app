@@ -1,19 +1,17 @@
 import { Umzug, SequelizeStorage } from 'umzug';
 import { Sequelize } from 'sequelize';
-import { cwd } from 'node:process';
-
-
-const sequelize = new Sequelize('User', 'root', '123', {
-  
+const sequelize = new Sequelize('User', 'root', 'Rubi@123', {
   dialect: 'mysql',
-  host: 'localhost',
+  storage: './db.sql',
 });
-const dir: string = cwd();
 export const migrator = new Umzug({
   migrations: {
-    glob: ['./migrations/*.ts', { cwd: dir}]
+    glob: 'src/database/migrations/*.ts',
   },
   context: sequelize,
-  storage: new SequelizeStorage({ sequelize }),
+  storage: new SequelizeStorage({
+    sequelize,
+  }),
   logger: console,
 });
+export type Migration = typeof migrator._types.migration;

@@ -38,7 +38,7 @@ export class UsersService {
   }
 
   public async findOneByEmail(email: string): Promise<UserModel> {
-    return this.userModel.findOne({ where: { email } });
+    return await this.userModel.findOne({ where: { email }});
   }
 
   public async uploadProfilePicture(
@@ -49,9 +49,17 @@ export class UsersService {
     const name = `${uuidv4()}${picture.originalName}`;
     console.log(name);
     await Storage.disk('local').put(
-      picture.originalName,
+      name,
       readFileSync(picture.path),
     );
-    return user.set({ profile_image: name }).save();
+    const user_info = this.findOne(user.id)
+    return (await user_info).set({profile_image: name}).save();
+  }
+
+   public async findPic(user:UserModel) {
+    const data = await this.findOne(user.id);
+    const profile_image = data.dataValues.profile_image
+    console.log(profile_image)
+    return profile_image
   }
 }

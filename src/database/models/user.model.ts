@@ -22,23 +22,17 @@ export class UserModel extends BaseModel<UserModel> {
   public profile_image: string;
 
   @HasMany(() => NoteModel, {
-    foreignKey: 'user_id',
-    onDelete: 'cascade',
-    onUpdate: 'cascade',
+    foreignKey: 'user_id'
   })
   public notes: NoteModel;
 
   @HasMany(() => SharedNotesModel, {
-    foreignKey: 'sender_id',
-    onDelete: 'cascade',
-    onUpdate: 'cascade',
+    foreignKey: 'sender_id'
   })
   public senders: SharedNotesModel[];
 
   @HasMany(() => SharedNotesModel, {
-    foreignKey: 'receiver_id',
-    onDelete: 'cascade',
-    onUpdate: 'cascade',
+    foreignKey: 'receiver_id'
   })
   public receivers: SharedNotesModel[];
 }
