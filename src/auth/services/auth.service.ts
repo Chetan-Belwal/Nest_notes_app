@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { UserLoginDto } from 'src/users/dtos/user-login.dto/user-login.dto';
 import { UsersService } from '../../users/services/users.service';
@@ -22,7 +22,7 @@ export class AuthService {
     if (user) {
       const match = this.hashService.decodePassword(
         userLoginDto.password,
-        user.dataValues.password,
+        user.password,
       );
       console.log(match);
       if (match) {

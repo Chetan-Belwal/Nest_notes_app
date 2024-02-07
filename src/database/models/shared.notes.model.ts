@@ -1,6 +1,5 @@
-import { Table, Column, ForeignKey, HasMany, BelongsTo } from 'sequelize-typescript';
+import { Table, Column, ForeignKey, BelongsTo } from 'sequelize-typescript';
 import { UserModel } from './user.model';
-import { DatesMappingModel } from './dates.mapping.model';
 import { NoteModel } from './note.model';
 import { BaseModel } from './base.model';
 
@@ -18,13 +17,12 @@ export class SharedNotesModel extends BaseModel<SharedNotesModel> {
   @Column
   public shared_note_id: number;
 
-  @BelongsTo(() => UserModel,{foreignKey:'sender_id' })
-  public sender : UserModel[]
+  @BelongsTo(() => UserModel, { foreignKey: 'sender_id' })
+  public sender: UserModel[];
 
-  @BelongsTo(() => UserModel,{foreignKey:'receiver_id' })
-  public receiver : UserModel[]
+  @BelongsTo(() => UserModel, { foreignKey: 'receiver_id' })
+  public receiver: UserModel[];
 
-  @BelongsTo(() => NoteModel,{foreignKey:'shared_note_id' })
-  public notes : NoteModel[]
-
+  @BelongsTo(() => NoteModel, { foreignKey: 'shared_note_id' })
+  public notes: NoteModel[];
 }

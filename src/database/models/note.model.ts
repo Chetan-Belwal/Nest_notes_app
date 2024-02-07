@@ -10,6 +10,7 @@ import { UserModel } from './user.model';
 import { BaseModel } from './base.model';
 import { SharedNotesModel } from './shared.notes.model';
 
+
 @Table({ tableName: 'notes', paranoid: true })
 export class NoteModel extends BaseModel<NoteModel> {
   @ForeignKey(() => UserModel)

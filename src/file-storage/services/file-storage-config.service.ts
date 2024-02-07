@@ -8,7 +8,7 @@ export class FileStorageConfigService implements StorageOptions {
   public disks: Record<string, DiskOptions> = {
     local: {
       driver: 'local',
-      basePath: join(process.cwd(),'uploads','pfp'),
+      basePath: join(process.cwd(), 'uploads', 'pfp'),
     },
     profileDisk: this.getAwsDisk(),
   };

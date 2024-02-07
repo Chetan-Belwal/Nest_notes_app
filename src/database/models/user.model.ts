@@ -1,8 +1,4 @@
-import {
-  Table,
-  Column,
-  HasMany,
-} from 'sequelize-typescript';
+import { Table, Column, HasMany } from 'sequelize-typescript';
 import { BaseModel } from './base.model';
 import { SharedNotesModel } from './shared.notes.model';
 import { NoteModel } from './note.model';
@@ -22,17 +18,17 @@ export class UserModel extends BaseModel<UserModel> {
   public profile_image: string;
 
   @HasMany(() => NoteModel, {
-    foreignKey: 'user_id'
+    foreignKey: 'user_id',
   })
   public notes: NoteModel;
 
   @HasMany(() => SharedNotesModel, {
-    foreignKey: 'sender_id'
+    foreignKey: 'sender_id',
   })
   public senders: SharedNotesModel[];
 
   @HasMany(() => SharedNotesModel, {
-    foreignKey: 'receiver_id'
+    foreignKey: 'receiver_id',
   })
   public receivers: SharedNotesModel[];
 }

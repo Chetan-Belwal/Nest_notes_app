@@ -3,7 +3,11 @@ import { NestjsFormDataModule } from 'nestjs-form-data';
 import { MyNestJsFormDataConfigService } from './my-nest-js-form-data-config-service.service';
 
 @Module({
-    imports:[NestjsFormDataModule.configAsync({useClass:MyNestJsFormDataConfigService})],
-    providers: [MyNestJsFormDataConfigService]
+  imports: [
+    NestjsFormDataModule.configAsync({
+      useClass: MyNestJsFormDataConfigService,
+    }),
+  ],
+  providers: [MyNestJsFormDataConfigService],
 })
 export class FormDataModule {}

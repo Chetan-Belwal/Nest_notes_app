@@ -1,16 +1,15 @@
-export interface userNoteInfo{
-    notes:{
-        title : string,
-        content : string
-    }
+export interface userNoteInfo {
+  notes: {
+    title: string;
+    content: string;
+  };
 
-    receiver:{
-        name:string
-        email:string
-    }
+  receiver: {
+    name: string;
+    email: string;
+  };
 
-    sender:{
-        name:string
-    }
-
+  sender: {
+    name: string;
+  };
 }

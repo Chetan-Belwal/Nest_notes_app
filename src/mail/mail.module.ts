@@ -4,7 +4,6 @@ import { MailerModule } from '@nestjs-modules/mailer';
 import { join } from 'path';
 import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
 import { ConfigService } from '@nestjs/config';
-//xcvdsvdsvdvsdvzx
 @Module({
   imports: [
     MailerModule.forRootAsync({
@@ -23,7 +22,7 @@ import { ConfigService } from '@nestjs/config';
           from: `${configService.get('MAIL_HOST')}`,
         },
         template: {
-          dir: join(__dirname, '..','..','mail','templates'),
+          dir: join(process.cwd(), 'src', 'mail', 'templates'),
           adapter: new HandlebarsAdapter(),
           options: {
             strict: true,
@@ -35,6 +34,6 @@ import { ConfigService } from '@nestjs/config';
     }),
   ],
   providers: [MailService],
-  exports:[MailService]
+  exports: [MailService],
 })
 export class MailModule {}

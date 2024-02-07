@@ -2,7 +2,6 @@ import {
   Body,
   Controller,
   Get,
-  ParseIntPipe,
   Post,
   Redirect,
   Render,
@@ -14,11 +13,9 @@ import { CreateUserDto } from '../dtos/create-user/create-user.dto';
 import { UsersService } from '../services/users.service';
 import { UserModel } from 'src/database/models/user.model';
 import { JwtAuthGuard } from 'src/auth/guard/jwt.guard';
-import { User } from 'user.decorator';
+import { User } from 'src/user.decorator';
 import { FileSystemStoredFile, FormDataRequest } from 'nestjs-form-data';
 import { FormDataTestDto } from '../dtos/form-data.dto';
-import { MapToNotePipe } from '../../notes/pipes/map-to-note/map-to-note.pipe';
-import { MapToUserPipe } from '../pipe/map-to-user.pipe';
 
 @Controller('users') // /users
 export class UsersController {
@@ -53,10 +50,9 @@ export class UsersController {
   public async uploadProfilePicture(
     @Body() picture: FormDataTestDto,
     @User() user: UserModel,
-  ):Promise<UserModel> {
+  ): Promise<UserModel> {
     console.log('Test', picture.avatar);
     await this.userService.uploadProfilePicture(user, picture.avatar);
     return user;
   }
 }
-

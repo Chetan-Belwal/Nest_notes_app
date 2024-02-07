@@ -10,11 +10,3 @@ export const dbConfig = () => ({
     db_name: process.env.DATABASE,
   },
 });
-
-//JWT
-export const jwtConfig = () => ({
-  secret: process.env.SECRET,
-  expireTime: process.env.EXPIRE_TIME,
-});
-
-//Mail Config

@@ -13,7 +13,11 @@ export class UsersService {
     public userModel: typeof UserModel,
     private hashService: HashService,
   ) {}
-
+/**
+ * Store user details in database
+ * @param createUser 
+ * @returns 
+ */
   public async create(
     createUser: Pick<UserModel, 'name' | 'email' | 'password'>,
   ): Promise<UserModel> {
@@ -29,18 +33,34 @@ export class UsersService {
       .save();
   }
 
-  public async deleteUser(user: UserModel) {
-    return user.destroy().then(() => null);
-  }
+  // public async deleteUser(user: UserModel) {
+  //   return user.destroy().then(() => null);
+  // }
 
+  /**
+   * Find a user using id
+   * @param id 
+   * @returns 
+   */
   public async findOne(id: number): Promise<UserModel> {
     return this.userModel.findByPk(id);
   }
 
+  /**
+   * find user using user email
+   * @param email 
+   * @returns 
+   */
   public async findOneByEmail(email: string): Promise<UserModel> {
-    return await this.userModel.findOne({ where: { email }});
+    return await this.userModel.findOne({ where: { email } });
   }
 
+  /**
+   * Store user profile picture in local and database
+   * @param user 
+   * @param picture 
+   * @returns 
+   */
   public async uploadProfilePicture(
     user: UserModel,
     picture: FileSystemStoredFile,
@@ -48,18 +68,20 @@ export class UsersService {
     console.log(user);
     const name = `${uuidv4()}${picture.originalName}`;
     console.log(name);
-    await Storage.disk('local').put(
-      name,
-      readFileSync(picture.path),
-    );
-    const user_info = this.findOne(user.id)
-    return (await user_info).set({profile_image: name}).save();
+    await Storage.disk('local').put(name, readFileSync(picture.path));
+    const user_info = this.findOne(user.id);
+    return (await user_info).set({ profile_image: name }).save();
   }
 
-   public async findPic(user:UserModel) {
+  /**
+   * find User picture name from database
+   * @param user 
+   * @returns 
+   */
+  public async findPic(user: UserModel) {
     const data = await this.findOne(user.id);
-    const profile_image = data.dataValues.profile_image
-    console.log(profile_image)
-    return profile_image
+    const profile_image = data.profile_image;
+    console.log(profile_image);
+    return profile_image;
   }
 }

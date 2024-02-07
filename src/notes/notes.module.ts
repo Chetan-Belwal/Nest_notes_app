@@ -8,12 +8,12 @@ import { UserModel } from 'src/database/models/user.model';
 import { SharedNotesModel } from 'src/database/models/shared.notes.model';
 import { MailModule } from 'src/mail/mail.module';
 import { UsersModule } from '../users/users.module';
-import { FileController } from '../users/controller/file.controller';
 
 @Module({
   imports: [
     SequelizeModule.forFeature([NoteModel, UserModel, SharedNotesModel]),
-    MailModule,UsersModule
+    MailModule,
+    UsersModule,
   ],
   controllers: [NotesController],
   providers: [NotesService, NotesSharingService],

@@ -5,9 +5,8 @@ import { join } from 'path';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import * as cookieParser from 'cookie-parser';
 import { ConfigService } from '@nestjs/config';
-import { prototype } from 'nodemailer/lib/ses-transport';
-var methodOverride = require('method-override');
-var bodyParser = require('body-parser');
+const methodOverride = require('method-override');
+const bodyParser = require('body-parser');
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
@@ -22,16 +21,16 @@ async function bootstrap() {
   const port = configService.get('PORT');
 
   const testing = configService.get('filesystem');
-  console.log(port)
+  console.log(port);
 
   //handlebars engine
-  app.useStaticAssets(join(__dirname, '..', '..', 'public'));
-  console.log(join(__dirname, '..', '..', 'uploads/pfp'), "path")
-  app.setBaseViewsDir(join(__dirname, '..', '..', 'views'));
+  app.useStaticAssets(join(process.cwd(), 'public'));
+  console.log(join(process.cwd()), 'path');
+  app.setBaseViewsDir(join(process.cwd(), 'views'));
   app.setViewEngine('hbs');
 
   //assest for uploads
-  app.useStaticAssets(join(__dirname, '..','..', 'storage/pictures'));
+  app.useStaticAssets(join(process.cwd(), 'storage/pictures'));
   //Swagger Api Setup
   const config = new DocumentBuilder()
     .setTitle('Cats example')
@@ -47,7 +46,7 @@ async function bootstrap() {
   app.use(
     methodOverride(function (req, res) {
       if (req.body && typeof req.body === 'object' && '_method' in req.body) {
-        var method = req.body._method;
+        const method = req.body._method;
         delete req.body._method;
         return method;
       }

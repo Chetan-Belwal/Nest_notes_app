@@ -194,21 +194,21 @@
         <tbody>
           {{#each notes}}
           <tr>
-            <td>{{this.dataValues.title}}</td>
-            <td class='table-warning'>{{this.dataValues.content}}</td>
+            <td>{{this.title}}</td>
+            <td class='table-warning'>{{this.content}}</td>
 
             <td>
-              <a href="/notes/{{this.dataValues.id}}" class='btn btn-outline-primary'>Edit</a>
+              <a href="/notes/{{this.id}}" class='btn btn-outline-primary'>Edit</a>
             </td>
 
             <td>
-              <form action="/notes/{{this.dataValues.id}}" method='post'>
+              <form action="/notes/{{this.id}}" method='post'>
                 <input type='hidden' name='_method' value='DELETE' />
                 <button class='btn btn-outline-danger' type='submit'>Delete</button>
               </form>
             </td>
             <td>
-              <a href="/notes/share/{{this.dataValues.id}}" class='btn btn-outline-info'>Share</a>
+              <a href="/notes/share/{{this.id}}" class='btn btn-outline-info'>Share</a>
             </td>
           </tr>
           {{/each}}
@@ -236,10 +236,10 @@
         <tbody>
           {{#each receivedNotes}}
           <tr>
-            <td>{{this.username}}</td>
+            <td>{{this.sender.name}}</td>
 
-            <td>{{this.title}}</td>
-            <td class='table-warning'>{{this.content}}</td>
+            <td>{{this.notes.title}}</td>
+            <td class='table-warning'>{{this.notes.content}}</td>
           </tr>
           {{/each}}
         </tbody>
@@ -269,9 +269,9 @@
         <tbody>
           {{#each sharedNotes}}
           <tr>
-            <td>{{this.username}}</td>
-            <td>{{this.title}}</td>
-            <td class='table-warning'>{{this.content}}</td>
+            <td>{{this.receiver.name}}</td>
+            <td>{{this.notes.title}}</td>
+            <td class='table-warning'>{{this.notes.content}}</td>
           </tr>
           {{/each}}
         </tbody>

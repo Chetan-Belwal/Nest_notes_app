@@ -17,13 +17,11 @@ import {
 import { NotesService } from '../services/notes.service';
 import { JwtAuthGuard } from 'src/auth/guard/jwt.guard';
 import { NotesDto } from 'src/users/dtos/notes-dto/notes.dto';
-import { User } from 'user.decorator';
+import { User } from 'src/user.decorator';
 import { UpdateNotesDto } from '../dto/updateNotes.dto';
 import { MapToNotePipe } from '../pipes/map-to-note/map-to-note.pipe';
 import { NoteModel } from 'src/database/models/note.model';
 import { NotesSharingService } from '../services/notes-sharing.service';
-import path = require('path');
-import { Local } from '@squareboat/nest-storage';
 import { UserModel } from '../../database/models/user.model';
 
 @Controller('notes')

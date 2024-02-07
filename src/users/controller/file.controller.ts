@@ -2,13 +2,12 @@ import {
   Controller,
   Get,
   Header,
-  Redirect,
   StreamableFile,
   UseGuards,
 } from '@nestjs/common';
 import { Storage } from '@squareboat/nest-storage';
 import { JwtAuthGuard } from '../../auth/guard/jwt.guard';
-import { User } from '../../../user.decorator';
+import { User } from '../../user.decorator';
 import { UserModel } from '../../database/models/user.model';
 import { UsersService } from '../services/users.service';
 import { createReadStream } from 'node:fs';

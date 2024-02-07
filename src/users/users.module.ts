@@ -14,7 +14,7 @@ import { FileController } from './controller/file.controller';
     NestjsFormDataModule,
     FormDataModule,
   ],
-  controllers: [UsersController,FileController],
+  controllers: [UsersController, FileController],
   providers: [UsersService, HashService],
   exports: [UsersService, HashService],
 })

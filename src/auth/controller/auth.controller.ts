@@ -1,11 +1,9 @@
 import {
-  Body,
   Controller,
   Get,
   Post,
   Redirect,
   Render,
-  Req,
   Res,
   UseGuards,
   UsePipes,
@@ -13,8 +11,8 @@ import {
 } from '@nestjs/common';
 import { AuthService } from '../services/auth.service';
 import { UsersGuard } from '../guard/users.guard';
-import { Request, Response } from 'express';
-import { User } from 'user.decorator';
+import { Response } from 'express';
+import { User } from 'src/user.decorator';
 import { JwtAuthGuard } from '../guard/jwt.guard';
 
 @Controller('auth')
@@ -23,15 +21,16 @@ export class AuthController {
 
   @Render('logIn')
   @Get('login')
-  logInPage(@Req() req: Request) {
+  logInPage() {
     console.log('inside get request');
+    return {};
   }
 
   @Redirect('/notes/dashboard')
   @UsePipes(new ValidationPipe())
   @UseGuards(UsersGuard)
   @Post('login')
-  public async login(@User() user : any, @Res() response: Response) {
+  public async login(@User() user: any, @Res() response: Response) {
     console.log('test', user);
     const cookie = user;
     response.setHeader('Set-Cookie', cookie);

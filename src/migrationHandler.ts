@@ -1,6 +1,10 @@
 import { Umzug, SequelizeStorage } from 'umzug';
 import { Sequelize } from 'sequelize';
-const sequelize = new Sequelize('User', 'root', 'Rubi@123', {
+const sequelize = new Sequelize({
+  username: process.env.USERNAMEDB,
+  password: process.env.PASSWORD,
+  database: process.env.DATABASE,
+  host: process.env.DATABASE_HOST,
   dialect: 'mysql',
   storage: './db.sql',
 });

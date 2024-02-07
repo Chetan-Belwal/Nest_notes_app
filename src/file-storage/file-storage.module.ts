@@ -6,12 +6,12 @@ import { ConfigService } from '@nestjs/config';
 @Module({
   imports: [
     StorageModule.registerAsync({
-        imports: [ConfigService],
-        useFactory: (config: ConfigService) => {
-          return config.get('filesystem')
-        },
-        inject: [ConfigService]
-      })
+      imports: [ConfigService],
+      useFactory: (config: ConfigService) => {
+        return config.get('filesystem');
+      },
+      inject: [ConfigService],
+    }),
   ],
   providers: [FileStorageConfigService],
 })

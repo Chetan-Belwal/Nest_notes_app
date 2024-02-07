@@ -18,7 +18,12 @@ export class NotesService {
     private mailService: MailService,
   ) {}
 
-  //Save user notes
+  /**
+   * Save user notes title and content
+   * @param user 
+   * @param noteData 
+   * @returns 
+   */
   public async saveNote(
     user: UserModel | number,
     noteData: Pick<NoteModel, 'title' | 'content'>,
@@ -33,7 +38,11 @@ export class NotesService {
       .save();
   }
 
-  //Display user notes
+  /**
+   * display user notes
+   * @param note 
+   * @returns 
+   */
   public async showNotes(note: Pick<UserModel, 'id'>) {
     return await this.noteModel.findAll({
       where: {
@@ -52,11 +61,11 @@ export class NotesService {
   public async showMyReceivedNotes(note: UserModel) {
     console.log(note, 'lol');
 
-    const data = await this.sharedNote.findAll({
+    return await this.sharedNote.findAll({
       where: { receiver_id: note.id },
       attributes: ['shared_note_id'],
       include: [
-        { model: UserModel, attributes: ['name'], as: 'senders' },
+        { model: UserModel, attributes: ['name'], as: 'sender' },
         {
           model: NoteModel,
           attributes: ['title', 'content'],
@@ -67,19 +76,7 @@ export class NotesService {
           as: 'notes',
         },
       ],
-      raw: true,
     });
-
-    const noteWithUsername = data.map((note) => {
-      const noteObject = Object.assign({}, note);
-      const username = noteObject['sender.name'];
-      const title = noteObject['notes.title'];
-      const content = noteObject['notes.content'];
-      const data = { username, title, content };
-      return data;
-    });
-
-    return noteWithUsername;
   }
 
   /**
@@ -90,8 +87,8 @@ export class NotesService {
    */
 
   public async showMySharedNotes(note: UserModel) {
-    const data : SharedNotesModel[] = await this.sharedNote.findAll({
-      where: { sender_id: note.id},
+    return await this.sharedNote.findAll({
+      where: { sender_id: note.id },
       attributes: ['shared_note_id'],
       include: [
         { model: UserModel, attributes: ['name'], as: 'receiver' },
@@ -104,20 +101,11 @@ export class NotesService {
           },
           as: 'notes',
         },
-      ],raw:true
+      ],
     });
-
-    const noteWithUsername = data.map((note) => {
-      const noteObject = Object.assign({}, note);
-      const username = noteObject['receiver.name'];
-      const title = noteObject['notes.title'];
-      const content = noteObject['notes.content'];
-      const data = { username, title, content };
-      return data;
-    });
-    console.log('Look ', noteWithUsername);
-    return noteWithUsername;
-  }
+    };
+   
+  
 
   //Delete user notes
   /**
@@ -128,32 +116,35 @@ export class NotesService {
 
   public async deleteNote(note: NoteModel): Promise<any> {
     console.log('test', note.id);
-    const data: any = await this.sharedNote.findAll({
-      where: { sender_id: note.dataValues.user_id },
+    const data  = await this.sharedNote.findOne({
+      where: { sender_id: note.user_id },
       attributes: ['shared_note_id'],
       include: [
-        { model: UserModel, attributes: ['name', 'email'], as: 'receivers' },
+        { model: UserModel, attributes: ['name', 'email'], as: 'receiver' },
         {
           model: NoteModel,
           attributes: ['title', 'content'],
           where: {
             title: { [Op.ne]: null },
             content: { [Op.ne]: null },
-            id: note.id
+            id: note.id,
           },
           as: 'notes',
         },
-        { model: UserModel, attributes: ['name'], as: 'senders' },
+        { model: UserModel, attributes: ['name'], as: 'sender' },
       ],
-      plain: true,
     });
-
-    if (data != null) {
-      await this.mailService.sendUserDeleteConfirmation(data.toJSON());
-      await note.destroy();
-    } else {
+    console.log("inside deletenote")
+    
+    
+   if (data != null ) {
+      await this.mailService.sendUserDeleteConfirmation(data);
       await note.destroy();
     }
+    else {
+      await note.destroy();
+    }
+   
   }
 
   public updateNotes(
@@ -164,7 +155,7 @@ export class NotesService {
   }
 
   /**
-   * It will find note by id
+   * This will find note by id
    * @param id
    * @returns Promise<NoteModel>
    */

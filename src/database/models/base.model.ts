@@ -1,4 +1,4 @@
-import { AutoIncrement, Column, HasMany, PrimaryKey } from 'sequelize-typescript';
+import { AutoIncrement, Column, PrimaryKey } from 'sequelize-typescript';
 import { DatesMappingModel } from './dates.mapping.model';
 
 export class BaseModel<T> extends DatesMappingModel<T> {

@@ -1,14 +1,11 @@
-import { IsNotEmpty, IsString } from "class-validator";
+import { IsNotEmpty, IsString } from 'class-validator';
 
 export class NotesDto {
-    
+  @IsString()
+  @IsNotEmpty()
+  public title: string;
 
-
-    @IsString()
-    @IsNotEmpty()
-    public title: string
-
-    @IsString()
-    @IsNotEmpty()
-    public content: string
+  @IsString()
+  @IsNotEmpty()
+  public content: string;
 }

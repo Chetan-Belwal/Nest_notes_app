@@ -9,7 +9,9 @@ describe('MyNestJsFormDataConfigServiceService', () => {
       providers: [MyNestJsFormDataConfigService],
     }).compile();
 
-    service = module.get<MyNestJsFormDataConfigService>(MyNestJsFormDataConfigService);
+    service = module.get<MyNestJsFormDataConfigService>(
+      MyNestJsFormDataConfigService,
+    );
   });
 
   it('should be defined', () => {

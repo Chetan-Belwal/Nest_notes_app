@@ -16,10 +16,9 @@ export class NotesSharingService {
    * This service will return all the user present in the database
    */
 
-  public async getAll(note_id: NoteModel, userId: UserModel) {
+  public async getAll(note_id: NoteModel, user: UserModel) {
     const users = await this.userModel.findAll({
-      where: { id: { [Op.ne]: userId.id } },
-      raw: true,
+      where: { id: { [Op.ne]: user.id } },
     });
     const result = users.map((item) => {
       return { name: item.name, user_id: item.id, note_id: note_id };
