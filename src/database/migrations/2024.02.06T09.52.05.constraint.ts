@@ -8,7 +8,7 @@ export const up: Migration = async ({
   await sequelize.getQueryInterface().addConstraint('notes', {
     fields: ['user_id'],
     type: 'foreign key',
-    name: 'users_notes',
+    name: 'user_id',
     references: {
       table: 'users',
       field: 'id',
@@ -29,8 +29,9 @@ export const up: Migration = async ({
       },
       onDelete: 'cascade',
       onUpdate: 'cascade',
-    },
-
+    })
+    await sequelize.getQueryInterface().addConstraint(
+      'shared_notes',
     {
       fields: ['sender_id'],
       type: 'foreign key',
@@ -41,8 +42,9 @@ export const up: Migration = async ({
       },
       onDelete: 'cascade',
       onUpdate: 'cascade',
-    },
-
+    })
+    await sequelize.getQueryInterface().addConstraint(
+      'shared_notes',
     {
       fields: ['receiver_id'],
       type: 'foreign key',
@@ -61,7 +63,7 @@ export const down: Migration = async ({
 }: {
   context: any;
 }): Promise<void> => {
-  await sequelize.getQueryInterface().removeConstraint('Notes', 'user_notes');
+  await sequelize.getQueryInterface().removeConstraint('notes', 'user_id');
   await sequelize
     .getQueryInterface()
     .removeConstraint('shared_notes', 'sharedNotes');
