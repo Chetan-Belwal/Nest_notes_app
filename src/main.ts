@@ -20,9 +20,6 @@ async function bootstrap() {
   //port
   const port = configService.get('PORT');
 
-  const testing = configService.get('filesystem');
-  console.log(port);
-
   //handlebars engine
   app.useStaticAssets(join(process.cwd(), 'public'));
   console.log(join(process.cwd()), 'path');
@@ -33,10 +30,9 @@ async function bootstrap() {
   app.useStaticAssets(join(process.cwd(), 'storage/pictures'));
   //Swagger Api Setup
   const config = new DocumentBuilder()
-    .setTitle('Cats example')
-    .setDescription('The cats API description')
+    .setTitle('Note API')
+    .setDescription('The Notes API description')
     .setVersion('1.0')
-    .addTag('cats')
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
@@ -44,7 +40,7 @@ async function bootstrap() {
   //Method override
   app.use(bodyParser.urlencoded({ extended: false }));
   app.use(
-    methodOverride(function (req, res) {
+    methodOverride(function (req) {
       if (req.body && typeof req.body === 'object' && '_method' in req.body) {
         const method = req.body._method;
         delete req.body._method;

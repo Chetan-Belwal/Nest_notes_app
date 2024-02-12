@@ -14,7 +14,10 @@ import { UsersGuard } from '../guard/users.guard';
 import { Response } from 'express';
 import { User } from 'src/user.decorator';
 import { JwtAuthGuard } from '../guard/jwt.guard';
+import { ApiTags } from '@nestjs/swagger';
+import { UserModel } from '../../database/models/user.model';
 
+@ApiTags('auth')
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}

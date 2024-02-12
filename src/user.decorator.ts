@@ -1,7 +1,7 @@
 import { createParamDecorator, ExecutionContext } from '@nestjs/common';
- /**
-  * Decorater which returns currently log users details
-  */
+/**
+ * Decorater which returns currently log users details
+ */
 export const User = createParamDecorator(
   (data: string, ctx: ExecutionContext) => {
     const request = ctx.switchToHttp().getRequest();

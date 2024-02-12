@@ -23,7 +23,9 @@ import { MapToNotePipe } from '../pipes/map-to-note/map-to-note.pipe';
 import { NoteModel } from 'src/database/models/note.model';
 import { NotesSharingService } from '../services/notes-sharing.service';
 import { UserModel } from '../../database/models/user.model';
+import { ApiBody, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('notes')
 @Controller('notes')
 export class NotesController {
   constructor(
@@ -54,6 +56,7 @@ export class NotesController {
   @Redirect('/notes/dashboard')
   @UsePipes(new ValidationPipe())
   @UseGuards(JwtAuthGuard)
+  @ApiBody({type:NotesDto})
   @Post('dashboard')
   public async saveNotes(
     @Body() noteContent: NotesDto,
@@ -82,6 +85,7 @@ export class NotesController {
 
   @Put(':id')
   @Redirect('/notes/dashboard')
+  @ApiBody({type: UpdateNotesDto})
   public async editAndSave(
     @Param('id', ParseIntPipe, MapToNotePipe) note: NoteModel,
     @Body() data: UpdateNotesDto,

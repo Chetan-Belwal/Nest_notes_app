@@ -16,7 +16,9 @@ import { JwtAuthGuard } from 'src/auth/guard/jwt.guard';
 import { User } from 'src/user.decorator';
 import { FileSystemStoredFile, FormDataRequest } from 'nestjs-form-data';
 import { FormDataTestDto } from '../dtos/form-data.dto';
+import { ApiBody, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('users')
 @Controller('users') // /users
 export class UsersController {
   constructor(private userService: UsersService) {}
@@ -32,6 +34,7 @@ export class UsersController {
   @UsePipes(new ValidationPipe())
   @Redirect('/auth/login')
   @Post('sign_up')
+  @ApiBody({type:CreateUserDto})
   public async create(@Body() createUser: CreateUserDto): Promise<UserModel> {
     console.log('request data', createUser);
     return this.userService.create(createUser);
@@ -47,6 +50,7 @@ export class UsersController {
   @FormDataRequest({ storage: FileSystemStoredFile })
   @UsePipes(new ValidationPipe())
   @Post('/upload')
+  @ApiBody({type: FormDataTestDto})
   public async uploadProfilePicture(
     @Body() picture: FormDataTestDto,
     @User() user: UserModel,

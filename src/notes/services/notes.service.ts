@@ -20,9 +20,9 @@ export class NotesService {
 
   /**
    * Save user notes title and content
-   * @param user 
-   * @param noteData 
-   * @returns 
+   * @param user
+   * @param noteData
+   * @returns
    */
   public async saveNote(
     user: UserModel | number,
@@ -40,8 +40,8 @@ export class NotesService {
 
   /**
    * display user notes
-   * @param note 
-   * @returns 
+   * @param note
+   * @returns
    */
   public async showNotes(note: Pick<UserModel, 'id'>) {
     return await this.noteModel.findAll({
@@ -103,9 +103,7 @@ export class NotesService {
         },
       ],
     });
-    };
-   
-  
+  }
 
   //Delete user notes
   /**
@@ -116,7 +114,7 @@ export class NotesService {
 
   public async deleteNote(note: NoteModel): Promise<any> {
     console.log('test', note.id);
-    const data  = await this.sharedNote.findOne({
+    const data = await this.sharedNote.findOne({
       where: { sender_id: note.user_id },
       attributes: ['shared_note_id'],
       include: [
@@ -134,17 +132,14 @@ export class NotesService {
         { model: UserModel, attributes: ['name'], as: 'sender' },
       ],
     });
-    console.log("inside deletenote")
-    
-    
-   if (data != null ) {
+    console.log('inside deletenote');
+
+    if (data != null) {
       await this.mailService.sendUserDeleteConfirmation(data);
       await note.destroy();
-    }
-    else {
+    } else {
       await note.destroy();
     }
-   
   }
 
   public updateNotes(

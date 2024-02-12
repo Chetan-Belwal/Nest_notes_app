@@ -12,7 +12,9 @@ import { UserModel } from '../../database/models/user.model';
 import { UsersService } from '../services/users.service';
 import { createReadStream } from 'node:fs';
 import { join } from 'node:path';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('file')
 @Controller('file')
 export class FileController {
   constructor(private userService: UsersService) {}

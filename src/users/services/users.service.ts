@@ -13,11 +13,11 @@ export class UsersService {
     public userModel: typeof UserModel,
     private hashService: HashService,
   ) {}
-/**
- * Store user details in database
- * @param createUser 
- * @returns 
- */
+  /**
+   * Store user details in database
+   * @param createUser
+   * @returns
+   */
   public async create(
     createUser: Pick<UserModel, 'name' | 'email' | 'password'>,
   ): Promise<UserModel> {
@@ -39,8 +39,8 @@ export class UsersService {
 
   /**
    * Find a user using id
-   * @param id 
-   * @returns 
+   * @param id
+   * @returns
    */
   public async findOne(id: number): Promise<UserModel> {
     return this.userModel.findByPk(id);
@@ -48,8 +48,8 @@ export class UsersService {
 
   /**
    * find user using user email
-   * @param email 
-   * @returns 
+   * @param email
+   * @returns
    */
   public async findOneByEmail(email: string): Promise<UserModel> {
     return await this.userModel.findOne({ where: { email } });
@@ -57,9 +57,9 @@ export class UsersService {
 
   /**
    * Store user profile picture in local and database
-   * @param user 
-   * @param picture 
-   * @returns 
+   * @param user
+   * @param picture
+   * @returns
    */
   public async uploadProfilePicture(
     user: UserModel,
@@ -75,8 +75,8 @@ export class UsersService {
 
   /**
    * find User picture name from database
-   * @param user 
-   * @returns 
+   * @param user
+   * @returns
    */
   public async findPic(user: UserModel) {
     const data = await this.findOne(user.id);
