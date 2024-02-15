@@ -13,6 +13,7 @@ import { FileStorageModule } from './file-storage/file-storage.module';
 import { StorageModule } from '@squareboat/nest-storage';
 import { NestjsFormDataModule } from 'nestjs-form-data';
 import { FormDataModule } from './form-data/form-data.module';
+import { ClusterService } from './cluster/cluster.service';
 
 @Module({
   imports: [
@@ -31,6 +32,6 @@ import { FormDataModule } from './form-data/form-data.module';
     FormDataModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, ClusterService],
 })
 export class AppModule {}

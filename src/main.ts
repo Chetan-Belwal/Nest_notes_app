@@ -5,6 +5,7 @@ import { join } from 'path';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import * as cookieParser from 'cookie-parser';
 import { ConfigService } from '@nestjs/config';
+import { ClusterService } from './cluster/cluster.service';
 const methodOverride = require('method-override');
 const bodyParser = require('body-parser');
 
@@ -51,4 +52,5 @@ async function bootstrap() {
 
   await app.listen(port);
 }
-bootstrap();
+
+ClusterService.clusterize(bootstrap)
