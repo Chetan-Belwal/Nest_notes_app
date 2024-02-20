@@ -11,12 +11,12 @@ import {
 } from '@nestjs/common';
 import { CreateUserDto } from '../dtos/create-user/create-user.dto';
 import { UsersService } from '../services/users.service';
-import { UserModel } from 'src/database/models/user.model';
-import { JwtAuthGuard } from 'src/auth/guard/jwt.guard';
-import { User } from 'src/user.decorator';
-import { FileSystemStoredFile, FormDataRequest } from 'nestjs-form-data';
 import { FormDataTestDto } from '../dtos/form-data.dto';
 import { ApiBody, ApiTags } from '@nestjs/swagger';
+import { UserModel } from '../../database/models/user.model';
+import { JwtAuthGuard } from '../../auth/guard/jwt.guard';
+import { FormDataRequest, FileSystemStoredFile } from 'nestjs-form-data';
+import { User } from '../../user.decorator';
 
 @ApiTags('users')
 @Controller('users') // /users

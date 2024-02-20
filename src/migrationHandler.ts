@@ -1,5 +1,6 @@
 import { Umzug, SequelizeStorage } from 'umzug';
 import { Sequelize } from 'sequelize';
+
 const sequelize = new Sequelize({
   username: 'root',
   password: 'Rubi@123',
@@ -8,6 +9,7 @@ const sequelize = new Sequelize({
   dialect: 'mysql',
   storage: './db.sql',
 });
+
 export const migrator = new Umzug({
   migrations: {
     glob: 'src/database/migrations/*.ts',

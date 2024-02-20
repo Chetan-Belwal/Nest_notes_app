@@ -12,10 +12,9 @@ import {
 import { AuthService } from '../services/auth.service';
 import { UsersGuard } from '../guard/users.guard';
 import { Response } from 'express';
-import { User } from 'src/user.decorator';
 import { JwtAuthGuard } from '../guard/jwt.guard';
 import { ApiTags } from '@nestjs/swagger';
-import { UserModel } from '../../database/models/user.model';
+import { User } from '../../user.decorator';
 
 @ApiTags('auth')
 @Controller('auth')

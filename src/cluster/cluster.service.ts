@@ -1,9 +1,11 @@
-
-const cluster = require('cluster'); 
+import * as clusters from 'node:cluster';
+import { Cluster} from 'node:cluster';
 import * as os from 'os';
 import { Injectable } from '@nestjs/common';
 
 const numCPUs = os.cpus().length;
+const cluster: Cluster = clusters as any;
+
 
 @Injectable()
 export class ClusterService {

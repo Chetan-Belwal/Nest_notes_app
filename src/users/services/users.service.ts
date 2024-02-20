@@ -21,9 +21,9 @@ export class UsersService {
   public async create(
     createUser: Pick<UserModel, 'name' | 'email' | 'password'>,
   ): Promise<UserModel> {
-    const password = this.hashService.encodePassword(createUser.password);
-
-    return this.userModel
+    console.log(createUser)
+    const password = await this.hashService.encodePassword(createUser.password);
+    return await this.userModel
       .build()
       .set({
         name: createUser.name,
@@ -80,8 +80,8 @@ export class UsersService {
    */
   public async findPic(user: UserModel) {
     const data = await this.findOne(user.id);
-    const profile_image = data.profile_image;
-    console.log(profile_image);
-    return profile_image;
+    const profileImage = data.profile_image;
+    console.log(profileImage);
+    return profileImage;
   }
 }

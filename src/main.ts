@@ -10,6 +10,7 @@ const methodOverride = require('method-override');
 const bodyParser = require('body-parser');
 
 async function bootstrap() {
+
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
   //Cookie parser

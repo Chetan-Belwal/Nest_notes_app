@@ -15,15 +15,15 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { NotesService } from '../services/notes.service';
-import { JwtAuthGuard } from 'src/auth/guard/jwt.guard';
-import { NotesDto } from 'src/users/dtos/notes-dto/notes.dto';
-import { User } from 'src/user.decorator';
 import { UpdateNotesDto } from '../dto/updateNotes.dto';
 import { MapToNotePipe } from '../pipes/map-to-note/map-to-note.pipe';
-import { NoteModel } from 'src/database/models/note.model';
 import { NotesSharingService } from '../services/notes-sharing.service';
 import { UserModel } from '../../database/models/user.model';
 import { ApiBody, ApiTags } from '@nestjs/swagger';
+import { JwtAuthGuard } from '../../auth/guard/jwt.guard';
+import { NoteModel } from '../../database/models/note.model';
+import { User } from '../../user.decorator';
+import { NotesDto } from '../../users/dtos/notes-dto/notes.dto';
 
 @ApiTags('notes')
 @Controller('notes')
@@ -114,6 +114,6 @@ export class NotesController {
     @Param('note_id', ParseIntPipe) note_id: number,
     @Param('user_id', ParseIntPipe) user_id: number,
   ) {
-    await this.shareService.saveShareInfo(user, user_id, note_id);
+    await this.shareService.saveShareInfo(user.id, user_id, note_id);
   }
 }

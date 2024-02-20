@@ -12,7 +12,11 @@ export class AuthService {
     private jwtService: JwtService,
     private hashService: HashService,
   ) {}
-
+  
+  // @Command({
+  //   command: 'route:list',
+  //   describe: 'Returns list of routes registered',
+  // })
   public async validateUser(userLoginDto: UserLoginDto) {
     const user: UserModel = await this.userService.findOneByEmail(
       userLoginDto.email,

@@ -11,9 +11,10 @@ import { NotesModule } from './notes/notes.module';
 import { MailModule } from './mail/mail.module';
 import { FileStorageModule } from './file-storage/file-storage.module';
 import { StorageModule } from '@squareboat/nest-storage';
-import { NestjsFormDataModule } from 'nestjs-form-data';
 import { FormDataModule } from './form-data/form-data.module';
 import { ClusterService } from './cluster/cluster.service';
+import { CliCommandsModule } from './cli-commands/cli-commands.module';
+import { NestjsFormDataModule } from 'nestjs-form-data';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { ClusterService } from './cluster/cluster.service';
     StorageModule,
     NestjsFormDataModule,
     FormDataModule,
+    CliCommandsModule,
   ],
   controllers: [AppController],
   providers: [AppService, ClusterService],

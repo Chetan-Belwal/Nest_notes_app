@@ -3,13 +3,14 @@ import {
   SequelizeOptionsFactory,
   SequelizeModuleOptions,
 } from '@nestjs/sequelize';
-import { NoteModel } from 'src/database/models/note.model';
-import { SharedNotesModel } from 'src/database/models/shared.notes.model';
-import { UserModel } from 'src/database/models/user.model';
 import { ConfigService } from '@nestjs/config';
+import { NoteModel } from '../models/note.model';
+import { SharedNotesModel } from '../models/shared.notes.model';
+import { UserModel } from '../models/user.model';
 
 @Injectable()
 export class SequelizeConfigService implements SequelizeOptionsFactory {
+  connection: any;
   constructor(private configService: ConfigService) {}
   public createSequelizeOptions(): SequelizeModuleOptions {
     const dbConfig = this.configService.get('database');
@@ -22,5 +23,12 @@ export class SequelizeConfigService implements SequelizeOptionsFactory {
       database: dbConfig.db_name,
       models: [UserModel, NoteModel, SharedNotesModel],
     };
+  }
+
+  
+  public async dropDatabase() {
+    return this.connection
+      .getQueryInterface()
+      .dropDatabase(this.connection.config.database);
   }
 }

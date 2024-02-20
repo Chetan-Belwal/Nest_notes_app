@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { Op } from 'sequelize';
-import { SharedNotesModel } from 'src/database/models/shared.notes.model';
-import { UserModel } from 'src/database/models/user.model';
 import { NoteModel } from '../../database/models/note.model';
+import { SharedNotesModel } from '../../database/models/shared.notes.model';
+import { UserModel } from '../../database/models/user.model';
 
 @Injectable()
 export class NotesSharingService {
@@ -35,14 +35,14 @@ export class NotesSharingService {
    */
 
   public async saveShareInfo(
-    senderId: UserModel,
+    senderId: number,
     receiverId: number,
     noteId: number,
   ) {
     return this.sharedNote
       .build()
       .set({
-        sender_id: senderId.id,
+        sender_id: senderId,
         receiver_id: receiverId,
         shared_note_id: noteId,
       })

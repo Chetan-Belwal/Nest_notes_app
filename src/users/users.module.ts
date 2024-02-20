@@ -4,9 +4,9 @@ import { UsersService } from './services/users.service';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { UserModel } from '../database/models/user.model';
 import { NestjsFormDataModule } from 'nestjs-form-data';
-import { FormDataModule } from 'src/form-data/form-data.module';
 import { HashService } from './services/hash.service';
 import { FileController } from './controller/file.controller';
+import { FormDataModule } from '../form-data/form-data.module';
 
 @Module({
   imports: [

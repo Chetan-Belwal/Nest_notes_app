@@ -4,8 +4,8 @@ import {
   NotFoundException,
   PipeTransform,
 } from '@nestjs/common';
-import { NoteModel } from 'src/database/models/note.model';
-import { NotesService } from 'src/notes/services/notes.service';
+import { NoteModel } from '../../../database/models/note.model';
+import { NotesService } from '../../services/notes.service';
 
 @Injectable()
 export class MapToNotePipe implements PipeTransform {

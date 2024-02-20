@@ -1,11 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { Op } from 'sequelize';
-import { NoteModel } from 'src/database/models/note.model';
-import { SharedNotesModel } from 'src/database/models/shared.notes.model';
-import { UserModel } from 'src/database/models/user.model';
-import { MailService } from 'src/mail/mail.service';
 import { UsersService } from '../../users/services/users.service';
+import { NoteModel } from '../../database/models/note.model';
+import { SharedNotesModel } from '../../database/models/shared.notes.model';
+import { UserModel } from '../../database/models/user.model';
+import { MailService } from '../../mail/mail.service';
+import { title } from 'node:process';
 
 @Injectable()
 export class NotesService {
@@ -24,6 +25,7 @@ export class NotesService {
    * @param noteData
    * @returns
    */
+  // @Command({name:'save:note',arguments:[string],description:'this will create'})
   public async saveNote(
     user: UserModel | number,
     noteData: Pick<NoteModel, 'title' | 'content'>,
