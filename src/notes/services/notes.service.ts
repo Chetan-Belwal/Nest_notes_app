@@ -45,11 +45,16 @@ export class NotesService {
    * @param note
    * @returns
    */
-  public async showNotes(note: Pick<UserModel, 'id'>) {
+  public async showNotes(note: Pick<UserModel, 'id'>,page :number,pageSize: number) {
+    const offset = (page-1) * pageSize;
+    const limit = pageSize;
+    console.log("limit",limit)
     return await this.noteModel.findAll({
       where: {
         user_id: note.id,
       },
+     limit,
+     offset
     });
   }
 
@@ -159,4 +164,14 @@ export class NotesService {
   public async findOne(id: number): Promise<NoteModel> {
     return await this.noteModel.findByPk(id);
   }
+
+  public async findAll(id: number): Promise<NoteModel[]> {
+    return await this.noteModel.findAll({where:{user_id:id}});
+  }
+
+  public async findNote(id: number){
+    return await this.noteModel.findAll({where:{id:id}});
+  }
+
+  
 }

@@ -6,7 +6,7 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
-    "cli":"ts-node ./src/cli.ts",
+    "cli": "ts-node ./src/cli.ts",
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
@@ -40,6 +40,7 @@
     "express-handlebars": "^5.3.0",
     "file-type": "^19.0.0",
     "handlebars": "^4.7.8",
+    "handlebars-paginate": "^0.1.0",
     "hbs": "^4.2.0",
     "method-override": "^3.0.0",
     "mysql2": "^3.7.0",

@@ -136,7 +136,7 @@
   </nav>
 
   <div class='container mt-3'>
-    <form id='noteForm' action='/notes/dashboard' method='post'>
+    <form id='noteForm' action='/notes/dashboard?limit=2&page=1' method='post'>
       <div class='note-container'>
         <div class='note-card'>
           <input type='text' placeholder='Title...' class='note-title' name='title' />
@@ -155,7 +155,7 @@
         <thead>
           <tr class='table-white'>
             <th scope='col'>
-              <a href="/notes/dashboard?shared=all" class='btn btn-outline-danger'>My Notes</a>
+              <a href="/notes/dashboard?shared=all&limit=2&page=1" class='btn btn-outline-danger'>My Notes</a>
             </th>
             <th scope='col'>
               <a href="/notes/dashboard?shared=byMe" class='btn btn-outline-dark'>Shared Notes</a>
@@ -196,7 +196,6 @@
           <tr>
             <td>{{this.title}}</td>
             <td class='table-warning'>{{this.content}}</td>
-
             <td>
               <a href="/notes/{{this.id}}" class='btn btn-outline-primary'>Edit</a>
             </td>
@@ -214,6 +213,26 @@
           {{/each}}
         </tbody>
       </table>
+      <nav aria-label="Page navigation example">
+        <ul class="pagination" style="display: flex; justify-content:center; align-item:center;">
+          <li class="page-item">
+            <a class="page-link" href="?p={{this}}" aria-label="Previous">
+              <span aria-hidden="true">&laquo;</span>
+              <span class="sr-only">Previous</span>
+            </a>
+          </li>
+          {{#if numberOfPages}}
+          {{#each numberOfPages}}
+          <li class="page-item"><a class="page-link" href="?limit=2&page={{this}}">{{this}}</a></li>
+        
+          <li class="page-item">
+            <a class="page-link" href="?p={{this}}" aria-disabled="true" aria-label="Next">
+              <span aria-hidden="true">&raquo;</span>
+              <span class="sr-only">Next</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
     </div>
     {{/if}}
 
@@ -244,6 +263,22 @@
           {{/each}}
         </tbody>
       </table>
+      <nav aria-label="Page navigation example">
+        <ul class="pagination" style="display: flex; justify-content:center; align-item:center;">
+          <li class="page-item">
+            <a class="page-link" href="#" aria-label="Previous">
+              <span aria-hidden="true">&laquo;</span>
+              <span class="sr-only">Previous</span>
+            </a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" href="#" aria-label="Next">
+              <span aria-hidden="true">&raquo;</span>
+              <span class="sr-only">Next</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
     </div>
     {{/if}}
 
@@ -276,6 +311,22 @@
           {{/each}}
         </tbody>
       </table>
+      <nav aria-label="Page navigation example">
+        <ul class="pagination" style="display: flex; justify-content:center; align-item:center;">
+          <li class="page-item">
+            <a class="page-link" href="#" aria-label="Previous">
+              <span aria-hidden="true">&laquo;</span>
+              <span class="sr-only">Previous</span>
+            </a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" href="#" aria-label="Next">
+              <span aria-hidden="true">&raquo;</span>
+              <span class="sr-only">Next</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
     </div>
   </div>
   {{/if}}

@@ -28,7 +28,7 @@ export class AuthController {
     return {};
   }
 
-  @Redirect('/notes/dashboard')
+  @Redirect('/notes/dashboard?limit=2&page=1')
   @UsePipes(new ValidationPipe())
   @UseGuards(UsersGuard)
   @Post('login')

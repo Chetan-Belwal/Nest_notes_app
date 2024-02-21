@@ -39,8 +39,13 @@ export class NotesController {
   public async displayNotes(
     @User() user: UserModel,
     @Query('shared') share: 'all' | 'withMe' | 'byMe',
+    @Query('page',new ParseIntPipe({optional:true}))page:number,
+    @Query('limit',new ParseIntPipe({optional:true}))limit:number,
+    @Query('filter',new ParseIntPipe({optional:true}))filter:number,
+
+
   ) {
-    console.log('Message', user);
+    console.log('Message',share);
     if (share === 'withMe') {
       const receivedNotes = await this.noteservice.showMyReceivedNotes(user);
       return { receivedNotes };
@@ -48,12 +53,28 @@ export class NotesController {
       const sharedNotes = await this.noteservice.showMySharedNotes(user);
       return { sharedNotes };
     } else {
-      const notes: NoteModel[] = await this.noteservice.showNotes(user);
-      return { notes };
+      if(filter===undefined||null){
+        const allNotes = await this.noteservice.findAll(user.id);
+        const notes = await this.noteservice.showNotes(user,page,limit);
+        const numOfNotes= allNotes.length;
+        console.log(numOfNotes,"length")
+        const pages = Math.ceil(numOfNotes/limit)
+        const numberOfPages=[];
+        for(let i=1 ; i<=pages-1; i++){
+          numberOfPages.push(i)
+        }
+        return { notes,numberOfPages };
+      }else{
+       const notes = await this.noteservice.findNote(filter)
+       console.log(notes)
+       return{notes}
+      }
+
+      
     }
   }
 
-  @Redirect('/notes/dashboard')
+  @Redirect('/notes/dashboard?limit=2&page=1')
   @UsePipes(new ValidationPipe())
   @UseGuards(JwtAuthGuard)
   @ApiBody({type:NotesDto})
@@ -65,7 +86,7 @@ export class NotesController {
     return await this.noteservice.saveNote(userId, noteContent);
   }
 
-  @Redirect('/notes/dashboard')
+  @Redirect('/notes/dashboard?limit=2&page=1')
   @Delete(':id')
   public async delete_user(
     @Param('id', ParseIntPipe, MapToNotePipe) note: NoteModel,
@@ -84,7 +105,7 @@ export class NotesController {
   }
 
   @Put(':id')
-  @Redirect('/notes/dashboard')
+  @Redirect('/notes/dashboard?limit=2&page=1')
   @ApiBody({type: UpdateNotesDto})
   public async editAndSave(
     @Param('id', ParseIntPipe, MapToNotePipe) note: NoteModel,
@@ -107,7 +128,7 @@ export class NotesController {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Redirect('/notes/dashboard')
+  @Redirect('/notes/dashboard?limit=2&page=1')
   @Post('save/share/:note_id/:user_id')
   public async shareInfo(
     @User() user: UserModel,

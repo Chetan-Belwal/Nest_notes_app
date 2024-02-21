@@ -45,7 +45,7 @@ export class UsersController {
     console.log(userId);
   }
 
-  @Redirect('/notes/dashboard')
+  @Redirect('/notes/dashboard?limit=2&page=1')
   @UseGuards(JwtAuthGuard)
   @FormDataRequest({ storage: FileSystemStoredFile })
   @UsePipes(new ValidationPipe())

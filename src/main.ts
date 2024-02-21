@@ -8,6 +8,11 @@ import { ConfigService } from '@nestjs/config';
 import { ClusterService } from './cluster/cluster.service';
 const methodOverride = require('method-override');
 const bodyParser = require('body-parser');
+import * as exphbs from 'express-handlebars';
+var paginate = require('handlebars-paginate');
+var Handlebars = require('handlebars');
+
+
 
 async function bootstrap() {
 
@@ -23,11 +28,22 @@ async function bootstrap() {
   const port = configService.get('PORT');
 
   //handlebars engine
+  // var hbs = exphbs.create({
+  //   helpers: {
+  //     paginate: require('handlebars-paginate')
+  //   }
+  // });
   app.useStaticAssets(join(process.cwd(), 'public'));
-  console.log(join(process.cwd()), 'path');
   app.setBaseViewsDir(join(process.cwd(), 'views'));
+  app.engine('handlebars', exphbs({helpers:{
+     paginate:require('../src/helper.js')
+  }}));
   app.setViewEngine('hbs');
 
+
+
+  
+   
   //assest for uploads
   app.useStaticAssets(join(process.cwd(), 'storage/pictures'));
   //Swagger Api Setup
