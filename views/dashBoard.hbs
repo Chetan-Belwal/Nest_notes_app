@@ -177,11 +177,18 @@
         <thead>
           <tr class='table-white'>
             <th scope='col'></th>
-            <th scope='col'>My Notes</th>
+            <th scope='col' class="table-primary">My Notes</th>
             <th scope='col'></th>
-            <th scope='col'></th>
-            <th scope='col'></th>
-            <th scope='col'></th>
+            <form action="/notes/filter" method="post">
+              <th>
+                <input class="form-control" name="filter" placeholder="Filter With Keyword">
+                <input type="hidden" value="notes" name="filterReqType">
+
+              </th>
+              <th scope='col'>
+                <button type="submit" class='btn btn-outline-danger'>Filter Note</button>
+              </th>
+            </form>
           </tr>
           <tr class='table-primary'>
             <th scope='col'>Title</th>
@@ -215,7 +222,7 @@
       </table>
       <nav aria-label="Page navigation example">
         <ul class="pagination" style="display: flex; justify-content:center; align-item:center;">
-         {{#if previous}}
+          {{#if previous}}
           <li class="page-item">
             <a class="page-link" href="?limit=2&page={{previous}}" aria-label="Previous">
               <span aria-hidden="true">&laquo;</span>
@@ -228,7 +235,7 @@
           <li class="page-item"><a class="page-link" href="?limit=2&page={{this}}">{{this}}</a></li>
           {{/each}}
           {{/if}}
-        {{#if next}}
+          {{#if next}}
           <li class="page-item">
             <a class="page-link" href="?limit=2&page={{next}}" aria-label="Next">
               <span aria-hidden="true">&raquo;</span>
@@ -247,9 +254,17 @@
       <table class='table'>
         <thead>
           <tr class='table-white'>
-            <th scope='col'></th>
             <th scope='col'>Notes Shared With Me</th>
-            <th scope='col'></th>
+            <th scope='col'>
+              <form action="/notes/filter" method="post">
+                <input class="form-control" name="filter" placeholder="Filter By Sender">
+                <input type="hidden" value="sender" name="filterReqType">
+
+            </th>
+            <th scope='col'>
+              <button type="submit" class='btn btn-outline-danger'>Filter Note</button>
+              </form>
+            </th>
           </tr>
           <tr class='table-primary'>
             <th scope="col">Sender</th>
@@ -268,22 +283,6 @@
           {{/each}}
         </tbody>
       </table>
-      <nav aria-label="Page navigation example">
-        <ul class="pagination" style="display: flex; justify-content:center; align-item:center;">
-          <li class="page-item">
-            <a class="page-link" href="#" aria-label="Previous">
-              <span aria-hidden="true">&laquo;</span>
-              <span class="sr-only">Previous</span>
-            </a>
-          </li>
-          <li class="page-item">
-            <a class="page-link" href="#" aria-label="Next">
-              <span aria-hidden="true">&raquo;</span>
-              <span class="sr-only">Next</span>
-            </a>
-          </li>
-        </ul>
-      </nav>
     </div>
     {{/if}}
 
@@ -294,10 +293,15 @@
         <thead>
           <tr class='table-white'>
             <th scope='col'>Notes Shared By Me</th>
-            <th scope='col'></th>
-            <th scope='col'></th>
-
-
+            <th scope='col'>
+              <form action="/notes/filter" method="post" name="filter">
+                <input type="hidden" value="receiver" name="filterReqType">
+                <input class="form-control" name="filter" placeholder="Filter By Receiver">
+            </th>
+            <th scope='col'>
+              <button type="submit" class='btn btn-outline-danger'>Filter Note</button>
+              </form>
+            </th>
           </tr>
 
           <tr class='table-primary'>
@@ -316,7 +320,7 @@
           {{/each}}
         </tbody>
       </table>
-      <nav aria-label="Page navigation example">
+      {{!-- <nav aria-label="Page navigation example">
         <ul class="pagination" style="display: flex; justify-content:center; align-item:center;">
           <li class="page-item">
             <a class="page-link" href="#" aria-label="Previous">
@@ -331,7 +335,7 @@
             </a>
           </li>
         </ul>
-      </nav>
+      </nav> --}}
     </div>
   </div>
   {{/if}}

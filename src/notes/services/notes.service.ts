@@ -14,7 +14,7 @@ export class NotesService {
     @InjectModel(NoteModel)
     private noteModel: typeof NoteModel,
     @InjectModel(SharedNotesModel)
-    private sharedNote: typeof SharedNotesModel,
+    private sharedNoteModel: typeof SharedNotesModel,
     private userService: UsersService,
     private mailService: MailService,
   ) {}
@@ -68,21 +68,9 @@ export class NotesService {
   public async showMyReceivedNotes(note: UserModel) {
     console.log(note, 'lol');
 
-    return await this.sharedNote.findAll({
+    return await this.sharedNoteModel.scope('withUserAndNotes').findAll({
       where: { receiver_id: note.id },
       attributes: ['shared_note_id'],
-      include: [
-        { model: UserModel, attributes: ['name'], as: 'sender' },
-        {
-          model: NoteModel,
-          attributes: ['title', 'content'],
-          where: {
-            title: { [Op.ne]: null },
-            content: { [Op.ne]: null },
-          },
-          as: 'notes',
-        },
-      ],
     });
   }
 
@@ -94,21 +82,9 @@ export class NotesService {
    */
 
   public async showMySharedNotes(note: UserModel) {
-    return await this.sharedNote.findAll({
+    return await this.sharedNoteModel.scope('withNotes').findAll({
       where: { sender_id: note.id },
       attributes: ['shared_note_id'],
-      include: [
-        { model: UserModel, attributes: ['name'], as: 'receiver' },
-        {
-          model: NoteModel,
-          attributes: ['title', 'content'],
-          where: {
-            title: { [Op.ne]: null },
-            content: { [Op.ne]: null },
-          },
-          as: 'notes',
-        },
-      ],
     });
   }
 
@@ -121,7 +97,7 @@ export class NotesService {
 
   public async deleteNote(note: NoteModel): Promise<any> {
     console.log('test', note.id);
-    const data = await this.sharedNote.findOne({
+    const data = await this.sharedNoteModel.findOne({
       where: { sender_id: note.user_id },
       attributes: ['shared_note_id'],
       include: [
@@ -169,9 +145,43 @@ export class NotesService {
     return await this.noteModel.findAll({where:{user_id:id}});
   }
 
-  public async findNote(id: number){
-    return await this.noteModel.findAll({where:{id:id}});
+  public async filterNote(filterStringForNote: string,user:UserModel){
+    return await this.noteModel.findAll({where:{
+      [Op.or]:{
+        title:{
+          [Op.like]: `%${filterStringForNote}%`
+        },
+        content:{
+          [Op.like]: `%${filterStringForNote}%`
+        }
+      },
+      user_id:user.id
+    }
+  } );  
   }
 
+  public async filterBySender(filterStringForNote: string, user: UserModel){
+    const as = "sender";
+    const note = await this.sharedNoteModel.scope([{method:['withFilterNotes']},{method:['userName',filterStringForNote,as]}]).findAll({
+      where:{
+       receiver_id: user.id 
+      }
+    });
+    console.log(note,"notes tewswt")
+    return note;
+
+  }
+
+  public async filterByReceiver(filterStringForNote: string, user: UserModel){
+    const as = "receiver";
+    const note = await this.sharedNoteModel.scope([{method:['withFilterNotes']},{method:['userName',filterStringForNote,as]}]).findAll({
+      where:{
+       sender_id: user.id 
+      }
+    });
+    console.log(note,"notes tewswt")
+    return note;
+
+  }
   
 }

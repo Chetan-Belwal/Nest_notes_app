@@ -24,6 +24,7 @@ import { JwtAuthGuard } from '../../auth/guard/jwt.guard';
 import { NoteModel } from '../../database/models/note.model';
 import { User } from '../../user.decorator';
 import { NotesDto } from '../../users/dtos/notes-dto/notes.dto';
+import { use } from 'passport';
 
 @ApiTags('notes')
 @Controller('notes')
@@ -31,7 +32,7 @@ export class NotesController {
   constructor(
     private noteservice: NotesService,
     private shareService: NotesSharingService,
-  ) { }
+  ) {}
 
   @UseGuards(JwtAuthGuard)
   @Render('dashBoard')
@@ -41,9 +42,8 @@ export class NotesController {
     @Query('shared') share: 'all' | 'withMe' | 'byMe',
     @Query('page', new ParseIntPipe({ optional: true })) page: number,
     @Query('limit', new ParseIntPipe({ optional: true })) limit: number,
-    @Query('filter', new ParseIntPipe({ optional: true })) filter: number,
-
-
+    @Query('filter') filter: string,
+    @Query('filterReqType') reqType: string,
   ) {
     console.log('Message', share);
     if (share === 'withMe') {
@@ -57,13 +57,13 @@ export class NotesController {
         const allNotes = await this.noteservice.findAll(user.id);
         const notes = await this.noteservice.showNotes(user, page, limit);
         const numOfNotes = allNotes.length;
-        console.log(numOfNotes, "length")
-        const pages = Math.ceil(numOfNotes / limit)
+        console.log(numOfNotes, 'length');
+        const pages = Math.ceil(numOfNotes / limit);
         const numberOfPages = [];
-        const next = [page + 1]
-        const previous = [page - 1]
-        for (let i = 1; i <= pages ; i++) {
-          numberOfPages.push(i)
+        const next = [page + 1];
+        const previous = [page - 1];
+        for (let i = 1; i <= pages; i++) {
+          numberOfPages.push(i);
         }
         if (next[0] <= pages && previous[0] > 0) {
           return { notes, numberOfPages, next, previous };
@@ -75,12 +75,33 @@ export class NotesController {
           return { notes, numberOfPages };
         }
       } else {
-        const notes = await this.noteservice.findNote(filter)
-        console.log(notes)
-        return { notes }
+        switch (reqType) {
+          case 'notes': {
+            const notes = await this.noteservice.filterNote(filter, user);
+            console.log(notes, 'notesssss');
+            return { notes };
+          }
+
+          case 'sender': {
+            const receivedNotes = await this.noteservice.filterBySender(
+              filter,
+              user,
+            );
+            return { receivedNotes };
+          }
+
+          case 'receiver': {
+            const sharedNotes = await this.noteservice.filterByReceiver(
+              filter,
+              user,
+            );
+            return { sharedNotes };
+          }
+          default: {
+            return {};
+          }
+        }
       }
-
-
     }
   }
 
@@ -98,7 +119,7 @@ export class NotesController {
 
   @Redirect('/notes/dashboard?limit=2&page=1')
   @Delete(':id')
-  public async delete_user(
+  public async deleteNote(
     @Param('id', ParseIntPipe, MapToNotePipe) note: NoteModel,
   ) {
     return this.noteservice.deleteNote(note);
@@ -146,5 +167,16 @@ export class NotesController {
     @Param('user_id', ParseIntPipe) user_id: number,
   ) {
     await this.shareService.saveShareInfo(user.id, user_id, note_id);
+  }
+  @Redirect(`notes/dashboard?filter=`)
+  @UseGuards(JwtAuthGuard)
+  @Post('filter')
+  public async filterNote(@Body() filterNote: any) {
+    const noteDesc = filterNote.filter;
+    const filterReqType = filterNote.filterReqType;
+    console.log(filterNote);
+    return {
+      url: `dashboard?filter=${noteDesc}&filterReqType=${filterReqType}`,
+    };
   }
 }
