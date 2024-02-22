@@ -7,6 +7,6 @@ export const dbConfig = () => ({
     db_password: process.env.PASSWORD,
     db_username: process.env.USERNAMEDB,
     db_dialect: process.env.DIALECT,
-    db_name: process.env.DATABASE,
+    db_name: process.env.DATABASE_NAME,
   },
 });
