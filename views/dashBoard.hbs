@@ -111,8 +111,9 @@
       <img src='../Images/tyrannosaurus-rex.png' width='35' height='35' class='d-inline-block align-top' alt='T-REX' />
       T-EXT Keep Notes
     </a>
+    {{!-- Profile Image --}}
     <div style="display: flex;">
-      <div class="dropdown" style="margin-right: 50px;">
+      <div class="dropdown" style="margin-right: 30px;">
         <a class="d-flex align-items-center justify-content-center p-3 link-dark text-decoration-none dropdown-toggle"
           id="dropdownUser3" data-bs-toggle="dropdown" aria-expanded="false">
           <img src="/file" class="rounded-circle shadow-4-strong" alt="sdvbnasnbv" style="height: 50px; width: 50px">
@@ -124,6 +125,21 @@
           </form>
         </ul>
       </div>
+      {{!-- Notifiction --}}
+       <div style="display: flex;">
+      <div class="dropdown" style="margin-right: 50px;">
+        <a class="d-flex align-items-center justify-content-center p-3 link-dark text-decoration-none dropdown-toggle"
+          id="dropdownUser3" data-bs-toggle="dropdown" aria-expanded="false">
+          <img src="../Images/bell.png" class="rounded-circle shadow-4-strong" alt="sdvbnasnbv" style="height: 45px; width: 45px">
+        </a>
+        <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser3">
+          <form action="/users/upload" method="post" enctype="multipart/form-data">
+            <input type="file" name="avatar">
+            <li><button class=" btn btn-success" style="margin-top: 10px;">Upload Picture</button></li>
+          </form>
+        </ul>
+      </div>
+      {{!-- Log Out Button --}}
       <div style="margin-top: 22px;">
         <form id="logOut" action='/auth/log_out' method='get'>
           <button class='btn btn-danger btn-logOut' form="logOut"> LogOut</button>
@@ -179,11 +195,9 @@
             <th scope='col'></th>
             <th scope='col' class="table-primary">My Notes</th>
             <th scope='col'></th>
-            <form action="/notes/filter" method="post">
+            <form action="/notes/filter?filterReqType=notes" method="post">
               <th>
                 <input class="form-control" name="filter" placeholder="Filter With Keyword">
-                <input type="hidden" value="notes" name="filterReqType">
-
               </th>
               <th scope='col'>
                 <button type="submit" class='btn btn-outline-danger'>Filter Note</button>
@@ -254,12 +268,10 @@
       <table class='table'>
         <thead>
           <tr class='table-white'>
-            <th scope='col'>Notes Shared With Me</th>
+            <th class="table-primary" scope='col'>Notes Shared With Me</th>
             <th scope='col'>
-              <form action="/notes/filter" method="post">
+              <form action="/notes/filter?filterReqType=sender" method="post">
                 <input class="form-control" name="filter" placeholder="Filter By Sender">
-                <input type="hidden" value="sender" name="filterReqType">
-
             </th>
             <th scope='col'>
               <button type="submit" class='btn btn-outline-danger'>Filter Note</button>
@@ -292,10 +304,9 @@
       <table class='table'>
         <thead>
           <tr class='table-white'>
-            <th scope='col'>Notes Shared By Me</th>
+            <th class="table-primary" scope='col'>Notes Shared By Me</th>
             <th scope='col'>
-              <form action="/notes/filter" method="post" name="filter">
-                <input type="hidden" value="receiver" name="filterReqType">
+              <form action="/notes/filter?filterReqType=receiver" method="post" name="filter">
                 <input class="form-control" name="filter" placeholder="Filter By Receiver">
             </th>
             <th scope='col'>

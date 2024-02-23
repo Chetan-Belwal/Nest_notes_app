@@ -15,6 +15,7 @@ import { FormDataModule } from './form-data/form-data.module';
 import { ClusterService } from './cluster/cluster.service';
 import { CliCommandsModule } from './cli-commands/cli-commands.module';
 import { NestjsFormDataModule } from 'nestjs-form-data';
+import { NotifictionModule } from './notifiction/notifiction.module';
 
 @Module({
   imports: [
@@ -32,6 +33,7 @@ import { NestjsFormDataModule } from 'nestjs-form-data';
     NestjsFormDataModule,
     FormDataModule,
     CliCommandsModule,
+    NotifictionModule,
   ],
   controllers: [AppController],
   providers: [AppService, ClusterService],

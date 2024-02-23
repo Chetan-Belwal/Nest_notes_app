@@ -25,6 +25,7 @@ import { NoteModel } from '../../database/models/note.model';
 import { User } from '../../user.decorator';
 import { NotesDto } from '../../users/dtos/notes-dto/notes.dto';
 import { use } from 'passport';
+import { SharedNotesModel } from '../../database/models/shared.notes.model';
 
 @ApiTags('notes')
 @Controller('notes')
@@ -40,7 +41,7 @@ export class NotesController {
   public async displayNotes(
     @User() user: UserModel,
     @Query('shared') share: 'all' | 'withMe' | 'byMe',
-    @Query('page', new ParseIntPipe({ optional: true })) page: number,
+    @Query('page', new ParseIntPipe({ optional: true })) filterPage: number,
     @Query('limit', new ParseIntPipe({ optional: true })) limit: number,
     @Query('filter') filter: string,
     @Query('filterReqType') reqType: string,
@@ -55,13 +56,13 @@ export class NotesController {
     } else {
       if (filter === undefined || null) {
         const allNotes = await this.noteservice.findAll(user.id);
-        const notes = await this.noteservice.showNotes(user, page, limit);
+        const notes = await this.noteservice.showNotes(user, filterPage, limit);
         const numOfNotes = allNotes.length;
         console.log(numOfNotes, 'length');
         const pages = Math.ceil(numOfNotes / limit);
         const numberOfPages = [];
-        const next = [page + 1];
-        const previous = [page - 1];
+        const next = [filterPage + 1];
+        const previous = [filterPage - 1];
         for (let i = 1; i <= pages; i++) {
           numberOfPages.push(i);
         }
@@ -77,13 +78,13 @@ export class NotesController {
       } else {
         switch (reqType) {
           case 'notes': {
-            const notes = await this.noteservice.filterNote(filter, user);
+            const notes: NoteModel[] = await this.noteservice.filterNote(filter, user);
             console.log(notes, 'notesssss');
             return { notes };
           }
 
           case 'sender': {
-            const receivedNotes = await this.noteservice.filterBySender(
+            const receivedNotes: SharedNotesModel[] = await this.noteservice.filterBySender(
               filter,
               user,
             );
@@ -91,7 +92,7 @@ export class NotesController {
           }
 
           case 'receiver': {
-            const sharedNotes = await this.noteservice.filterByReceiver(
+            const sharedNotes: SharedNotesModel[] = await this.noteservice.filterByReceiver(
               filter,
               user,
             );
@@ -171,10 +172,9 @@ export class NotesController {
   @Redirect(`notes/dashboard?filter=`)
   @UseGuards(JwtAuthGuard)
   @Post('filter')
-  public async filterNote(@Body() filterNote: any) {
+  public async filterNote(@Body() filterNote,@Query('filterReqType') filterReqType: string) {
     const noteDesc = filterNote.filter;
-    const filterReqType = filterNote.filterReqType;
-    console.log(filterNote);
+    console.log(filterReqType);
     return {
       url: `dashboard?filter=${noteDesc}&filterReqType=${filterReqType}`,
     };
