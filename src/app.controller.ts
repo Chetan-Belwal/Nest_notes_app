@@ -1,4 +1,8 @@
-import { Controller } from '@nestjs/common';
+import { Controller, Get, Redirect } from '@nestjs/common';
 
 @Controller()
-export class AppController {}
+export class AppController {
+    @Redirect('auth/login')
+    @Get()
+    public func(){}
+}

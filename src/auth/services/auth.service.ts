@@ -17,7 +17,7 @@ export class AuthService {
   //   command: 'route:list',
   //   describe: 'Returns list of routes registered',
   // })
-  public async validateUser(userLoginDto: UserLoginDto) {
+  public async validateUser({ userLoginDto }: { userLoginDto: UserLoginDto; }) {
     const user: UserModel = await this.userService.findOneByEmail(
       userLoginDto.email,
     );
